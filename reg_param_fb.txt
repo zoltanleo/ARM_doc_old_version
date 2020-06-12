@@ -1,0 +1,16 @@
+C:\Program Files\Firebird\Firebird_2_1\bin\fbclient.dll
+C:\WINDOWS\system32\GDS32.DLL
+
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\SharedDlls
+
+fbclient.dll
+fbembed.dll
+gds32.dll
+
+ActSrchPat.Checked
+ChkBoxSrchLstNm.Checked
+ChkBoxSrchFstNm.Checked
+ChkBoxSrchDtBorn.Checked
+CbBoxSrchLstNm.ItemIndex
+CbBoxSrchFstNm.ItemIndex

@@ -1,0 +1,1518 @@
+ДОБАВЛЕНО ИЛИ ИСПРАВЛЕНО:
+===========
+=========== 
+
+v. 3.1.2
+==========
+(!) изменен вид аватары в окне "О программе..."
+(!) изменен компонент, отвечающий за сохранение параметров формы на экране (TMS заменен на NiceSettings)
+
+v. 3.1.3
+=========
+(+) добавлен вертикальный скролл у рич-эдитов лекарств, манипуляций, диагноза и рекомендаций
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@                                                                                                 @
+@                             (ниже лежащие версии в стадии разработки)                           @
+@                                                                                                 @
+@           версии нумеруются по принципу v. x.y.z, где                                           @
+@                                                                                                 @
+@  x - принципиально новая версия с изменениями в структуре БД, требуется конвертация таблиц БД   @
+@  y - изменения касаются в основном интерфейса программы                                         @  
+@  z - номер рабочего билда (для тестовой отладки)                                                @
+@                                                                                                 @
+@                                                                                                 @ 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+v. 4.0.0
+==========
+(+) добавлены новые поля в TBL_VISITBLOB
+
+    DRUGTEXT_MEMO              DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */,
+    DSTEXT_MEMO                DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */,
+    RECOMTEXT_MEMO             DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */,
+    MANIPTEXT_MEMO             DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+    
+куда записывается "неформатированный" текст соответствующих рич-эдитов
+
+(+) добавлены новые mirror-поля для таблицы TMP_VISITBLOB
+    TMP_DRUGTEXT_MEMO              DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */,
+    TMP_DSTEXT_MEMO                DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */,
+    TMP_RECOMTEXT_MEMO             DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */,
+    TMP_MANIPTEXT_MEMO             DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+
+для "служебных" целей    
+
+(+) добавлены столбцы "Диагноз", "Рекомендации", "Манипуляции", "Лечение" в детальной грид главной формы 
+
+v. 4.0.1
+==========
+(+) добавлены новые поля в TBL_VISITLABOR
+
+    TUBREZ               DMN_BOOL /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,-- факт анализа на tbc
+    TUBAN                DMN_BOOL /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,-- результат анализа на tbc
+    CANDREZ              DMN_BOOL /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,-- факт анализа на кандиду
+    CANDAN               DMN_BOOL /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */ -- результат анализа на кандиду
+    
+(+) в модуле PCRUnit добавлены новые элементы (чек-боксы и радиобутоны) для анализов на туберкулез и кандиду
+
+v. 4.0.2
+==========    
+(+) добавлены новые поля в таблицу TBL_VISITMAIN
+
+    BADSENSURETH           DMN_BOOL /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,-- дискомфорт в уретре
+    COLICSENSURETH         DMN_BOOL /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,-- рези в уретре
+    BADSENSPERINEUM        DMN_BOOL /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,-- дискомфорт в промежности
+    COLICSENSPERINEUM      DMN_BOOL /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */ -- рези в промежности
+    DOLORPENISDETUMESC     DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */-- боли в пенисе в покое
+    DOLORPENISERECT        DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */-- боли при эрекции
+    VESURINUNCOMPLETE      DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */-- неполное опорожнение мочевого пузыря    
+    SLOWEJACUL             DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */-- трудно достижимый оргазм
+    NOERECTION             DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */-- отсутствие эрекции при стимуляции
+    PENISDEFORM            DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */-- пенильная деформация при эрекции
+    VARICOCELE             DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */-- наличие варикоцеле
+    VARICSIDE              INTEGER DEFAULT 0 NOT NULL -- сторона варикоцеле (для CbBoxVaricSide )
+    VARICPOSIT             INTEGER DEFAULT 1 NOT NULL -- положение тела при этом (для CbBoxVaricPosit)
+    
+    с добавлением в модуле StatusPatUnit на вкладке "Андрологические жалобы" соответствующих чек-боксов
+
+(*) DSetTotalPat - отключена опция "Options.poFetchAll" - "фетчить все записи", для ускорения выборки на  клиента и сделана обратная сортировка по дате последнего посещения   
+(*) Изменен порядок связывания таблиц запроса в "главном гриде", порядок сортировки для оптимизации запроса
+(*) DSetSinglePat - сделана обратная сортировка по дате посещения, в детальном гриде отключен локальный сортировщик по столбцу
+
+(+) на вкладке "Андрологические жалобы" фиксированные надписи заменены на комбы (там указаны на выбор дни, недели, года)
+    - CbBoxNicturiaPeriod
+    - CbBoxPollaciuriaPeriod
+    - CbBoxUrPollacPeriod (добавлено в версии 4.0.4)
+    - CbBoxUrNictPeriod (добавлено в версии 4.0.4)
+    
+    с добавлением соответствующих полей в таблицу TBL_VISITMAIN
+    
+    POLLACIURIAPERIOD      INTEGER DEFAULT 0 NOT NULL
+    NICTURIAPERIOD         INTEGER DEFAULT 0 NOT NULL
+    URPOLLACPERIOD         INTEGER DEFAULT 0 NOT NULL (добавлено в версии 4.0.4)
+    URNICTPERIOD           INTEGER DEFAULT 0 NOT NULL (добавлено в версии 4.0.4)
+
+
+(*) на вкладке "Андрологические жалобы" фиксированные радиобутоны "выделений" заменены на комбы, ряд полей удалено или переименовано
+    DISCHARGENATURE        INTEGER DEFAULT 0 NOT NULL,//-- характер выделений
+    DISCHARGEVOLUME        INTEGER DEFAULT 0 NOT NULL,//-- объем выделений
+    DISCHARGEREGUL         INTEGER DEFAULT 0 NOT NULL,//-- периодичность выделений
+    DISCHARGEDURAT         INTEGER DEFAULT 0 NOT NULL //-- длительность выделений
+    
+    значения в которых равны ItemIndex соответствующих комбов
+    CbBoxDischargeNature
+    CbBoxDischargeVolume
+    CbBoxDischargeRegul
+    CbBoxDischargeDurat
+
+
+(+) добавлен новый домен  DMN_VARCHR1000 (для очень длинных строк)
+
+   CREATE DOMAIN DMN_VARCHR1000 AS VARCHAR(1000) CHARACTER SET WIN1251 COLLATE WIN1251;
+
+(+) добавлены новые поля в таблицу TBL_VISITBLOB
+
+    DRUGTEXT_STR               DMN_VARCHR1000 /* DMN_VARCHR1000 = VARCHAR(1000) */,
+    MANIPTEXT_STR              DMN_VARCHR1000 /* DMN_VARCHR1000 = VARCHAR(1000) */,
+    DSTEXT_STR                 DMN_VARCHR1000 /* DMN_VARCHR1000 = VARCHAR(1000) */,
+    RECOMTEXT_STR              DMN_VARCHR1000 /* DMN_VARCHR1000 = VARCHAR(1000) */
+    
+    для поиска и фильтрации
+    в дополнение к мемо-полям "неформатированного" текста (см. изменения от v 4.0.0)  
+    
+    
+v. 4.0.3
+==========    
+(+) добавлено новое поле в таблицу TBL_VISITMAIN
+	
+    ANOTHRESRCHREZLT       DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */-- явка на осмотр с результатами исследований
+    
+(+) и соответствующий радиобутон RdBtnAnothResrchRezlt
+
+(*) изменено ограничение UNQ1_TBL_VISITMAIN в таблице TBL_VISITMAIN
+    --> с CREATE UNIQUE INDEX UNQDATE_TBL_VISITMAIN ON TBL_VISITMAIN (DATEVISIT, VIS_LINKANKETA)
+    --> на CREATE UNIQUE INDEX UNQ_DATE_TBL_VISITMAIN ON TBL_VISITMAIN (DATEVISIT, VIS_LINKANKETA, VIS_LINKDOCTOR);
+
+    - в скрипте запускаем команду
+    alter table TBL_VISITMAIN drop CONSTRAINT UNQ1_TBL_VISITMAIN
+    
+    - вновь создаем ограничение вручную
+    
+(+) в каталог проекта добавлен модуль padegFIO.pas с библиотекой padeg.dll и словарем исключений Except.dic, который позволяет при помощи соответствующих функций склонять имена собственные по падежам. Вся информация по нему в файле Padeg.mht. Использование его просто до безобразия: нужно прописать pas-юнит в uses интерфейсной части главного модуля.
+
+(+) добавлена проверка на уникальность визита на дату и врача (не должно быть двух одинаковых по этим параметрам визитов)
+
+v. 4.0.4
+==========  
+(+) добавлена радиокнопка ("без отрицательной динамики") в локальном статусе и радиокнопка ("от осмотра отказался") в ректальном осмотре
+
+(+) в каталог главного проекта самым первым юнитом добавлен FastMM4 для оптимизации менеджера памяти (соответственно в IDE дельфей прописаны пути к соответствующему каталогу)
+
+(+) на вкладку общий анамнез добавлены различные компоненты для сбора анамнеза с добавлением в таблицу TBL_VISITMAIN полей
+
+    ======= общий анамнез ========
+    ALLERGY                DMN_BOOL DEFAULT 0 NOT NULL /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    ALLERGY_STRRICHMEMO    DMN_VARCHR1000 /* DMN_VARCHR1000 = VARCHAR(1000) */
+    ANAMSMOKE              DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    SIGARCOUNT             INTEGER DEFAULT 1 NOT NULL CHECK (SIGARCOUNT between 1 and 40)
+    SMOKEAGE               INTEGER DEFAULT 1 NOT NULL CHECK (SMOKEAGE between 1 and 40)
+    SMOKEPERIOD            INTEGER DEFAULT 1 NOT NULL
+    ANAMALKOHOL            DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    ANAMCHLDDES_STRRICHMEMO   DMN_VARCHR1000 /* DMN_VARCHR1000 = VARCHAR(1000) */
+    ANAMANTHRDES_STRRICHMEMO  DMN_VARCHR1000 /* DMN_VARCHR1000 = VARCHAR(1000) */
+    
+    ======= андрологический анамнез ========
+    ANDRVARICOCELE            DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    ANDRHYDROCELE             DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    ANDRCRYPTORHISM           DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    ANDRCIRCUMCISIO           DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    ANDRPAROTIT               DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    ANDRCASTRACIO             DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    ANDRADENOMOPER            DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    ANDRMARRIAGE              INTEGER DEFAULT 0 NOT NULL,
+    ANDRCHILD                 DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    ANDRCHILDCOUNT            INTEGER DEFAULT 1 NOT NULL CHECK (ANDRCHILDCOUNT between 1 and 20)
+    ANDRPREGNANCY             DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    SEXPARTNFEMALECOUNT       INTEGER DEFAULT 1 NOT NULL
+    SEXPARTNFEMALERAMDOM      INTEGER DEFAULT 0 NOT NULL
+    ANDRCOITUSCOUNT           INTEGER DEFAULT 1 NOT NULL CHECK (ANDRCOITUSCOUNT between 0 and 20)
+    ANDRCOITUSPERIOD          INTEGER DEFAULT 1 NOT NULL
+    ANDRORGASMCOUNT           INTEGER DEFAULT 1 NOT NULL CHECK (ANDRORGASMCOUNT between 0 and 20)
+    ANDRZPPP_STRRICHMEMO      DMN_VARCHR1000 /* DMN_VARCHR1000 = VARCHAR(1000) */
+
+    ======= гинекологический анамнез ======== 
+    GINMENARHE                INTEGER DEFAULT 8 NOT NULL CHECK (GINMENARHE between 8 and 20)
+    GINMENOPAUSE              DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    GINMENOPAUSEAGE           INTEGER DEFAULT 45 NOT NULL CHECK (GINMENOPAUSEAGE between 10 and 60)
+    GINMENSESPERIOD           INTEGER DEFAULT 28 NOT NULL CHECK (GINMENSESPERIOD between 7 and 60)
+    GINMENSESAGE              INTEGER DEFAULT 5 NOT NULL CHECK (GINMENSESAGE between 1 and 10)
+    GINLASTMENSESDATE         DMN_DATE NOT NULL /* DMN_DATE = DATE DEFAULT CURRENT_DATE NOT NULL */
+    GINPREGNANCYCOUNT         INTEGER DEFAULT 0 NOT NULL CHECK (GINPREGNANCYCOUNT between 0 and 20)
+    GINCHILDBIRTHCOUNT        INTEGER DEFAULT 0 NOT NULL CHECK (GINCHILDBIRTHCOUNT between 0 and 20)
+    GINABORTIONCOUNT          INTEGER DEFAULT 0 NOT NULL CHECK (GINABORTIONCOUNT between 0 and 20)
+    GINMARRIAGE               INTEGER DEFAULT 0 NOT NULL
+    SEXPARTNMALECOUNT         INTEGER DEFAULT 1 NOT NULL
+    SEXPARTNMALERAMDOM        INTEGER DEFAULT 0 NOT NULL
+    GINCOITUSCOUNT            INTEGER DEFAULT 3 NOT NULL CHECK (GINCOITUSCOUNT between 0 and 20)
+    GINCOITUSPERIOD           INTEGER DEFAULT 1 NOT NULL
+    GINZPPP_STRRICHMEMO       DMN_VARCHR1000 /* DMN_VARCHR1000 = VARCHAR(1000) */
+    
+    ====== поля, регулирующие "видимость" данных анамнеза ========
+    ANAMNESALLERGY_CHK        DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    BADHABIT_CHK              DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    ANDROPERATION_CHK         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    ANAMNESFAMILY_CHK         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    ANAMNESANDRSEX_CHK        DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    ANAMNESGINEK_CHK          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    ANAMNESGINSEX_CHK         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    
+(+) Добавлена форма FrmAllergyChoice для детализации аллергологического анамнеза.
+    
+v. 4.0.5
+========== 
+
+(+) в юнит PCRUnit добавлен чек-бокс "ВПЧ высокого и среднего онкогенного действия"
+(+) добавлены поля в таблицу TBL_VISITLABOR соответствующие поля
+    PHVANHIGH            DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    PHVREZHIGH           DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+
+(+) Добавлена форма FrmChildDes для детализации анамнеза детских инфекций.
+(+) Добавлена форма FrmAnthrDes для детализации анамнеза сопутствующих заболеваний.
+(+) Добавлена форма FrmZPPP для детализации анамнеза половых инфекции у мужчин и женщин.
+
+v. 4.0.6
+==========
+
+(*) переработан модуль TblAnketaUnit, из которого удалены избыточные или часто изменяющиеся сведения
+(*) соответственно из таблицы TBL_ANKETA удалены следующие поля
+
+(-) ALTER TABLE TBL_ANKETA DROP CHILDREN
+(-) ALTER TABLE TBL_ANKETA DROP WOMAN
+(-) ALTER TABLE TBL_ANKETA DROP FIRSTERECTION
+(-) ALTER TABLE TBL_ANKETA DROP FIRSTCOITUS
+(-) ALTER TABLE TBL_ANKETA DROP INTENSIVCOITUSMOUNTH
+(-) ALTER TABLE TBL_ANKETA DROP MAXORGAZM
+(-) ALTER TABLE TBL_ANKETA DROP MARRIAGE
+(-) ALTER TABLE TBL_ANKETA DROP MASTURBATION
+(-) ALTER TABLE TBL_ANKETA DROP LIBIDO
+(-) ALTER TABLE TBL_ANKETA DROP ZPPPANAMNES
+(-) ALTER TABLE TBL_ANKETA DROP SMOKE
+(-) ALTER TABLE TBL_ANKETA DROP ALKOHOL
+(-) ALTER TABLE TBL_ANKETA DROP CIRCUMCISIO
+(-) ALTER TABLE TBL_ANKETA DROP OPERABDOMEN
+(-) ALTER TABLE TBL_ANKETA DROP TRAUMAGENIT
+(-) ALTER TABLE TBL_ANKETA DROP CHILDDISEASE
+(-) ALTER TABLE TBL_ANKETA DROP CHRONICDISEASE
+(-) ALTER TABLE TBL_ANKETA DROP ALLERGIA
+(-) ALTER TABLE TBL_ANKETA DROP PROFDISEASE
+
+v. 4.0.7
+==========
+
+(!) Сменена версия грида на EhLib 4.4 beta
+(!) Сменена версия компонентов доступа к БД FIBPlus с 6.7 на 6.9.5
+
+(*) изменения в юните TblDoctorUnit: 
+    - чек-бокс штатного состояния сотрудника заменен на комбобокс с позициями "совместитель/штатный сотрудник/уволен", соответственно в 
+    - добавлено поле для ввода номера контактного телефона
+    - чек-бокс запрета публичного показа номера контактного телефона
+    - чек-боксы и комбы для составления расписания приема врача
+    
+(*)таблице TBL_DOCTOR произведены изменения
+
+(+) DOC_STUFFSTATUS INTEGER DEFAULT 1 NOT NULL
+(-) ALTER TABLE TBL_DOCTOR DROP DOC_VISIBLE
+(+) DOC_CONTACTPHONE  DMN_VARCHR100 /* DMN_VARCHR100 = VARCHAR(100) */
+(+) DOC_PHONENUMBACCESS  DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+
+(+) Добавлен в проект новый юнит uFrmConsultation для задания и корректировки расписания приема врачей в разных клиниках
+(+) добавлена новая табличка TBL_CONSULTATION для хранения расписания приема с ниже следующим скриптом
+
+=========================== начало скрипта создания TBL_CONSULTATION ====================================
+
+CREATE GENERATOR GEN_TBL_CONSULTATION_ID;
+
+CREATE TABLE TBL_CONSULTATION (
+    ID_CONSULT       INTEGER NOT NULL,
+    CONS_LINKDOCTOR  INTEGER NOT NULL,
+    CONS_LINKCLINIC  INTEGER NOT NULL,
+    USR_NAME         DMN_USRNAME /* DMN_USRNAME = VARCHAR(31) */,
+    ROLE_NAME        DMN_USRNAME /* DMN_USRNAME = VARCHAR(31) */,
+    WORKMONDAY       DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,
+    WORKTUESDAY      DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,
+    WORKWEDNES       DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,
+    WORKTHURS        DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,
+    WORKFRIDAY       DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,
+    WORKSATUR        DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,
+    WORKSUNDAY       DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,
+    WORKBEGMONDAY    INTEGER DEFAULT 2 NOT NULL,
+    WORKENDMONDAY    INTEGER DEFAULT 10 NOT NULL,
+    WORKBEGTUESDAY   INTEGER DEFAULT 2 NOT NULL,
+    WORKENDTUESDAY   INTEGER DEFAULT 10 NOT NULL,
+    WORKBEGWEDNES    INTEGER DEFAULT 2 NOT NULL,
+    WORKENDWEDNES    INTEGER DEFAULT 10 NOT NULL,
+    WORKBEGTHURS     INTEGER DEFAULT 2 NOT NULL,
+    WORKENDTHURS     INTEGER DEFAULT 10 NOT NULL,
+    WORKBEGFRIDAY    INTEGER DEFAULT 2 NOT NULL,
+    WORKENDFRIDAY    INTEGER DEFAULT 10 NOT NULL,
+    WORKBEGSATUR     INTEGER DEFAULT 2 NOT NULL,
+    WORKENDSATUR     INTEGER DEFAULT 10 NOT NULL,
+    WORKBEGSUNDAY    INTEGER DEFAULT 2 NOT NULL,
+    WORKENDSUNDAY    INTEGER DEFAULT 10 NOT NULL,
+    BREAKMONDAY      DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,
+    BREAKTUESDAY     DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,
+    BREAKWEDNES      DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,
+    BREAKTHURS       DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,
+    BREAKFRIDAY      DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,
+    BREAKSATUR       DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,
+    BREAKSUNDAY      DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */,
+    BREAKBEGMONDAY   INTEGER DEFAULT 10 NOT NULL,
+    BREAKENDMONDAY   INTEGER DEFAULT 12 NOT NULL,
+    BREAKBEGTUESDAY  INTEGER DEFAULT 10 NOT NULL,
+    BREAKENDTUESDAY  INTEGER DEFAULT 12 NOT NULL,
+    BREAKBEGWEDNES   INTEGER DEFAULT 10 NOT NULL,
+    BREAKENDWEDNES   INTEGER DEFAULT 12 NOT NULL,
+    BREAKBEGTHURS    INTEGER DEFAULT 10 NOT NULL,
+    BREAKENDTHURS    INTEGER DEFAULT 12 NOT NULL,
+    BREAKBEGFRIDAY   INTEGER DEFAULT 10 NOT NULL,
+    BREAKENDFRIDAY   INTEGER DEFAULT 12 NOT NULL,
+    BREAKBEGSATUR    INTEGER DEFAULT 10 NOT NULL,
+    BREAKENDSATUR    INTEGER DEFAULT 12 NOT NULL,
+    BREAKBEGSUNDAY   INTEGER DEFAULT 10 NOT NULL,
+    BREAKENDSUNDAY   INTEGER DEFAULT 12 NOT NULL,
+    WORKBEGMONDAY_STR    DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    WORKENDMONDAY_STR    DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    WORKBEGTUESDAY_STR   DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    WORKENDTUESDAY_STR   DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    WORKBEGWEDNES_STR    DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    WORKENDWEDNES_STR    DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    WORKBEGTHURS_STR     DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    WORKENDTHURS_STR     DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    WORKBEGFRIDAY_STR    DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    WORKENDFRIDAY_STR    DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    WORKBEGSATUR_STR     DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    WORKENDSATUR_STR     DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    WORKBEGSUNDAY_STR    DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    WORKENDSUNDAY_STR    DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    BREAKBEGMONDAY_STR   DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    BREAKENDMONDAY_STR   DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    BREAKBEGTUESDAY_STR  DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    BREAKENDTUESDAY_STR  DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    BREAKBEGWEDNES_STR   DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    BREAKENDWEDNES_STR   DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    BREAKBEGTHURS_STR    DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    BREAKENDTHURS_STR    DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    BREAKBEGFRIDAY_STR   DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    BREAKENDFRIDAY_STR   DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    BREAKBEGSATUR_STR    DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    BREAKENDSATUR_STR    DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    BREAKBEGSUNDAY_STR   DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */,
+    BREAKENDSUNDAY_STR   DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */    
+);
+
+/******************************************************************************/
+/***                           Unique Constraints                           ***/
+/******************************************************************************/
+
+ALTER TABLE TBL_CONSULTATION ADD CONSTRAINT UNQ1_TBL_CONSULTATION UNIQUE (CONS_LINKDOCTOR, CONS_LINKCLINIC);
+
+
+/******************************************************************************/
+/***                              Primary Keys                              ***/
+/******************************************************************************/
+
+ALTER TABLE TBL_CONSULTATION ADD CONSTRAINT PK_TBL_CONSULTATION PRIMARY KEY (ID_CONSULT);
+
+
+/******************************************************************************/
+/***                              Foreign Keys                              ***/
+/******************************************************************************/
+
+ALTER TABLE TBL_CONSULTATION ADD CONSTRAINT FK_TBL_CONSULTATION_1 FOREIGN KEY (CONS_LINKDOCTOR) REFERENCES TBL_DOCTOR (ID_DOCTOR) ON DELETE CASCADE;
+ALTER TABLE TBL_CONSULTATION ADD CONSTRAINT FK_TBL_CONSULTATION_2 FOREIGN KEY (CONS_LINKCLINIC) REFERENCES TBL_CLINIC (ID_CLINIC) ON DELETE CASCADE;
+
+
+/******************************************************************************/
+/***                                Triggers                                ***/
+/******************************************************************************/
+SET TERM ^ ;
+
+/******************************************************************************/
+/***                          Triggers for tables                           ***/
+/******************************************************************************/
+/* Trigger: TBL_CONSULTATION_BI */
+CREATE OR ALTER TRIGGER TBL_CONSULTATION_BI FOR TBL_CONSULTATION
+ACTIVE BEFORE INSERT POSITION 0
+AS
+BEGIN
+  IF (NEW.ID_CONSULT IS NULL) THEN
+    NEW.ID_CONSULT = GEN_ID(GEN_TBL_CONSULTATION_ID,1);
+END
+^
+
+
+/* Trigger: TBL_CONSULTATION_BI1 */
+CREATE OR ALTER TRIGGER TBL_CONSULTATION_BI1 FOR TBL_CONSULTATION
+ACTIVE BEFORE INSERT POSITION 1
+AS
+begin
+   if (CURRENT_ROLE = 'NONE') then
+      NEW.ROLE_NAME = 'ADMINISTR';
+   if (CURRENT_ROLE <> 'NONE') then
+      NEW.ROLE_NAME = CURRENT_ROLE;
+
+      NEW.USR_NAME = CURRENT_USER;
+end
+^
+SET TERM ; ^
+
+/******************************************************************************/
+/***                               Privileges                               ***/
+/******************************************************************************/
+/* Privileges of roles */
+GRANT ALL ON TBL_CONSULTATION TO ADMINISTR;
+GRANT SELECT, INSERT, UPDATE, REFERENCES ON TBL_CONSULTATION TO DERMATOLOG;
+GRANT SELECT, INSERT, UPDATE, REFERENCES ON TBL_CONSULTATION TO GINEKOLOG;
+GRANT SELECT, INSERT, REFERENCES ON TBL_CONSULTATION TO REGISTRATOR;
+GRANT SELECT, INSERT, UPDATE, REFERENCES ON TBL_CONSULTATION TO UROLOG;
+
+=========================== окончание скрипта создания TBL_CONSULTATION ====================================
+
+(*) активированы триггеры (проверить!) Before Delete в табличках TBL_ANKETA, TBL_DOCTOR и TBL_CLINIC
+
+(*) добавлены новые исключения в базу
+
+(+) CREATE EXCEPTION NA_01_NO_EMPTY_DOCTOR_DELETE 'You can not delete doctor required by Tbl_Consultation';
+(+) CREATE EXCEPTION NA_02_NO_EMPTY_CLINIC_DELETE 'You can not delete clinic required by Tbl_Consultation';
+
+======================================================================
+(+) добавлен новый триггер в TBL_DOCTOR
+
+/* Trigger: TBL_DOCTOR_BD_2 */
+CREATE OR ALTER TRIGGER TBL_DOCTOR_BD_2 FOR TBL_DOCTOR
+ACTIVE BEFORE DELETE POSITION 2
+AS
+begin
+  if (EXISTS(
+      SELECT CNS.CONS_LINKDOCTOR FROM TBL_CONSULTATION CNS
+         WHERE CNS.CONS_LINKDOCTOR = OLD.ID_DOCTOR)) then
+   EXCEPTION NA_01_NO_EMPTY_DOCTOR_DELETE;
+end
+^
+
+======================================================================
+(+) добавлен новый триггер в TBL_CLINIC
+
+/* Trigger: TBL_CLINIC_BD1 */
+CREATE OR ALTER TRIGGER TBL_CLINIC_BD1 FOR TBL_CLINIC
+ACTIVE BEFORE DELETE POSITION 2
+AS
+begin
+  if (EXISTS(
+      SELECT CNS.CONS_LINKCLINIC FROM TBL_CONSULTATION CNS
+         WHERE CNS.CONS_LINKCLINIC = OLD.ID_CLINIC)) then
+   EXCEPTION NA_02_NO_EMPTY_CLINIC_DELETE;
+end
+^
+======================================================================
+
+(+) подключен модуль QStrings для облегчения работы со строками
+
+v. 4.0.8
+==========
+(-) Из проекта исключена библиотека GraphicEx - слишком часто глюки при компиляции
+
+(+) В таблицу TBL_VISITLABOR добавлены поля
+
+    ONKOMARKDATE         DMN_DATE DEFAULT Current_date /* DMN_DATE = DATE DEFAULT CURRENT_DATE NOT NULL */
+    PSA_TOTAL            DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */
+    PSA_FREE             DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */
+    PSA_RATIO            DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */
+
+(+) В таблицу TBL_VISITBLOB добавлены поля
+
+    ONKOMARKER                 DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+    ONKOMARKERFOTOS            DMN_BLOBIMG /* DMN_BLOBIMG = BLOB SUB_TYPE -15 SEGMENT SIZE 80 */
+    ONKOMARKERFOTOS_EXT        DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */
+        
+(+) В таблицу TMP_VISITBLOB добавлены поля
+
+    TMP_ONKOMARKER                 DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */,
+    TMP_ONKOMARKERFOTOS            DMN_BLOBIMG /* DMN_BLOBIMG = BLOB SUB_TYPE -15 SEGMENT SIZE 80 */,
+    TMP_ONKOMARKERFOTOS_EXT        DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */    
+
+v. 4.0.9
+==========
+
+(+) добавлен патчик VCLFixPack.pas для коррекции ошибок и глюков VCL от Andy (http://andy.jgknet.de)
+
+(*) сменена версия EhLib 4.4.47 
+
+(*) сменена версия FIBPlus 6.9.6
+
+(*) В табличке TBL_ANKETA у поля ANK_LINKTOWN убрано дефолтовое значение 0
+
+    ANK_LINKTOWN  INTEGER NOT NULL
+
+(*) исправлен запрос в главном гриде (до этого отображались "нулевые" записи)
+
+---------------------------------------------------------------------------
+
+(+) добавлена таблица TBL_LABORISSUE (для названий подразделов прайса)
+
+CREATE GENERATOR GEN_TBL_LABORISSUE_ID;
+
+CREATE TABLE TBL_LABORISSUE (
+    LABORISSUE_ID         INTEGER NOT NULL,
+    LABORISSUE_NAME       DMN_VARCHR100 NOT NULL /* DMN_VARCHR100 = VARCHAR(100) */ - наименование подразделов
+    LABORISSUE_CODELITER  DMN_VARCHR5 NOT NULL /* DMN_VARCHR5 = VARCHAR(5) */ - общая литера для кодов данного подраздела
+);
+
+
+ALTER TABLE TBL_LABORISSUE ADD CONSTRAINT UNQCODELITER_TBL_LABORISSUE UNIQUE (LABORISSUE_CODELITER);
+ALTER TABLE TBL_LABORISSUE ADD CONSTRAINT UNQNAME_TBL_LABORISSUE UNIQUE (LABORISSUE_NAME);
+ALTER TABLE TBL_LABORISSUE ADD CONSTRAINT PK_TBL_LABORISSUE PRIMARY KEY (LABORISSUE_ID);
+
+----------------------------------------------------------------------------
+
+
+(*) изменена табличка TBL_BASEPRICE
+   * изменен порядок полей
+	alter table TBL_BASEPRICE
+	alter BASEPRICE_ID position 1;
+	alter table TBL_BASEPRICE
+	alter BASEPRICE_PROC_ISSUE position 2;
+	alter table TBL_BASEPRICE
+	alter BASEPRICE_PROC_CODE position 3;
+	alter table TBL_BASEPRICE
+	alter BASEPRICE_PROC_NAME position 4;  
+	
+   * поле BASEPRICE_PROC_ISSUE сделано внешним ключом на TBL_LABORISSUE
+	alter table TBL_BASEPRICE
+	add constraint FK_TBL_BASEPRICE_1
+	foreign key (BASEPRICE_PROC_ISSUE)
+	references TBL_LABORISSUE(LABORISSUE_ID);
+
+(*) убрано дефолтовое значение BASEPRICE_PROC_ISSUE
+ 	
+--------------------------------------------------------------------	
+(+) добавлено новое исключение в случае удаления записи из таблицы TBL_LABORISSUE
+
+CREATE EXCEPTION NA_03_NO_LABORISSUE_DELETE 'You can not delete LaborIssue required by Tbl_BasePrice'
+
+--------------------------------------------------------------------	
+(+) добавлено новое исключение в случае использования нелатиницы в поле LABORISSUE_CODELITER таблицы TBL_LABORISSUE
+
+CREATE EXCEPTION NA_04_USE_LATIN_ALPHABET 'You should use only Latin alphabet letters';	
+
+----------------------------------------------------------------------------	
+(+) добавлен триггер, не позволяющий удалять подраздел из TBL_LABORISSUE, если есть зависимость в TBL_BASEPRICE	
+
+/* Trigger: TBL_LABORISSUE_BD1 */
+CREATE OR ALTER TRIGGER TBL_LABORISSUE_BD1 FOR TBL_LABORISSUE
+ACTIVE BEFORE DELETE POSITION 1
+AS
+begin
+  if (EXISTS(
+      SELECT BP.BASEPRICE_PROC_ISSUE FROM TBL_BASEPRICE BP
+         WHERE BP.BASEPRICE_PROC_ISSUE = OLD.LABORISSUE_ID)) then
+   EXCEPTION NA_03_NO_LABORISSUE_DELETE;
+end	
+	
+-----------------------------------------------------------------------------
+	
+(*) изменен триггер
+CREATE OR ALTER TRIGGER TBL_BASEPRICE_BIU_1 FOR TBL_BASEPRICE
+ACTIVE BEFORE INSERT OR UPDATE POSITION 1
+AS
+begin
+  IF (INSERTING AND ((NEW.BASEPRICE_PROC_CODE IS NULL) OR (TRIM(NEW.BASEPRICE_PROC_CODE) = ''))) THEN
+      SELECT LI.LABORISSUE_CODELITER||'_'||CAST(NEW.BASEPRICE_ID AS VARCHAR(5))
+      FROM TBL_LABORISSUE LI
+      WHERE LI.LABORISSUE_ID = NEW.BASEPRICE_PROC_ISSUE
+        INTO NEW.BASEPRICE_PROC_CODE;
+
+  IF (UPDATING AND ((NEW.BASEPRICE_PROC_CODE IS NULL) OR (TRIM(NEW.BASEPRICE_PROC_CODE) = ''))) THEN
+      SELECT LI.LABORISSUE_CODELITER||'_'||CAST(NEW.BASEPRICE_ID AS VARCHAR(5))
+      FROM TBL_LABORISSUE LI
+      WHERE LI.LABORISSUE_ID = OLD.BASEPRICE_PROC_ISSUE
+      INTO NEW.BASEPRICE_PROC_CODE;
+end
+
+теперь значение BASEPRICE_PROC_ISSUE будет изменяться автоматически, в зависимости от значений LABORISSUE_CODELITER, если оно пустое или нулевое (null)	
+
+-----------------------------------------------------------------------------
+(*) изменен триггер
+
+/* Trigger: TBL_BASEPRICE_BIU_2 */
+CREATE OR ALTER TRIGGER TBL_BASEPRICE_BIU_2 FOR TBL_BASEPRICE
+ACTIVE BEFORE INSERT OR UPDATE POSITION 2
+AS
+begin
+    if ((NEW.BASEPRICE_PROC_NAME IS NULL) or (TRIM(NEW.BASEPRICE_PROC_NAME)=''))  then
+         NEW.BASEPRICE_PROC_NAME =
+            (CAST(NEW.BASEPRICE_PROC_CODE AS VARCHAR(10))||'_'||'PROCEDURE');
+end
+
+-----------------------------------------------------------------------------
+(+) добавлен триггер в табличку TBL_LABORISSUE (контроллирует ввод только латиницы)
+
+CREATE OR ALTER TRIGGER TBL_LABORISSUE_BIU2 FOR TBL_LABORISSUE
+ACTIVE BEFORE INSERT OR UPDATE POSITION 2
+AS
+declare variable I integer;
+declare variable L INTEGER;
+BEGIN
+    I = CHAR_LENGTH(NEW.LABORISSUE_CODELITER);
+    WHILE (I > 0 ) DO
+        BEGIN
+            L = ASCII_VAL(SUBSTRING(NEW.LABORISSUE_CODELITER from I for 1));
+            IF (NOT((L between 65 AND 90) OR (L between 97 AND 122)))--(сменено в v 4.0.10)
+                THEN EXCEPTION NA_04_USE_LATIN_ALPHABET;
+            I= I - 1;
+       END
+END
+--------------------- старый вариант -------------------------------
+/*declare variable N integer;
+declare variable I integer;
+declare variable L INTEGER;
+BEGIN
+    N = CHAR_LENGTH(NEW.LABORISSUE_CODELITER);
+    I = 1;
+    WHILE (I <= N) DO
+        BEGIN
+            L = ASCII_VAL(SUBSTRING(NEW.LABORISSUE_CODELITER from I for 1));
+            IF (NOT((L between 65 AND 90) OR (L between 97 AND 122)))--(сменено в v 4.0.10)
+            -- или так (((L < 65) OR (L > 90)) AND ((L < 97) OR ((L > 122 ))))            
+                THEN EXCEPTION NA_04_USE_LATIN_ALPHABET;
+            I= I +1;
+        END*/
+--------------------- старый вариант -------------------------------
+
+--------------------- еще один вариант -------------------------------
+
+CREATE OR ALTER TRIGGER TBL_BI1 FOR TBL
+ACTIVE BEFORE INSERT OR UPDATE POSITION 0
+AS
+declare variable s varchar(50);
+declare variable n integer;
+declare variable i integer;
+begin
+  s = new.field2;
+  n = character_length(s);
+  if (n > 0) then begin
+    i = 1;
+    while (i <= n) do begin
+      if (not upper(substring(s from i for 1)) between 'A' and 'Z') then
+        exception incorr_format;
+      i = i + 1;
+    end
+  end
+end
+
+--------------------- еще один вариант -------------------------------
+
+
+-----------------------------------------------------------------------------
+(+) добавлен триггер в табличку TBL_LABORISSUE 
+
+CREATE OR ALTER TRIGGER TBL_LABORISSUE_BIU3 FOR TBL_LABORISSUE
+ACTIVE BEFORE INSERT OR UPDATE POSITION 3
+AS
+begin
+  NEW.LABORISSUE_CODELITER = UPPER(NEW.LABORISSUE_CODELITER);
+end
+
+теперь любое значение поля LABORISSUE_CODELITER приводится к верхнему регистру
+
+-----------------------------------------------------------------------------
+(*) в табличке TBL_BASEPRICE у поля BASEPRICE_PROC_CODE сменен тип 
+ с DMN_VARCHR10 на DMN_VARCHR20
+
+-----------------------------------------------------------------------------
+
+(+) В таблицу TBL_PRICE добавлено новое поле 
+
+    CHOICE_PROC_PRICE  DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+    
+    для отметки выбора данной услуги
+    
+    ALTER TABLE TBL_PRICE
+    ADD CHOICE_PROC_PRICE DMN_BOOL
+    DEFAULT 0 ;
+    
+-----------------------------------------------------------------------------
+(*) изменяем имя поля BASEPRICE_PROC_ISSUE на BASEPRICE_PROC_ISSUE_FK в таблице ЕИД_BASEPRICE
+для этого последовательно выполняем несколько действий
+
+- грохаем внешний ключ
+ALTER TABLE TBL_BASEPRICE DROP CONSTRAINT FK_TBL_BASEPRICE_1
+
+- грохаем уникальное ограничение (можно было и не делать, но раз грохнул, пототм пересоздал)
+DROP INDEX TBL_BPRICE_UNQIDX
+
+- деактивируем (комментируем) триггер
+SET TERM ^ ;
+
+CREATE OR ALTER TRIGGER TBL_BASEPRICE_BIU_1 FOR TBL_BASEPRICE
+ACTIVE BEFORE INSERT OR UPDATE POSITION 1
+AS
+begin /*$$IBE$$ 
+  IF (INSERTING AND ((NEW.BASEPRICE_PROC_CODE IS NULL) OR (TRIM(NEW.BASEPRICE_PROC_CODE) = ''))) THEN
+      SELECT LI.LABORISSUE_CODELITER||'_'||CAST(NEW.BASEPRICE_ID AS VARCHAR(5))
+      FROM TBL_LABORISSUE LI
+      WHERE LI.LABORISSUE_ID = NEW.BASEPRICE_PROC_ISSUE
+        INTO NEW.BASEPRICE_PROC_CODE;
+
+  IF (UPDATING AND ((NEW.BASEPRICE_PROC_CODE IS NULL) OR (TRIM(NEW.BASEPRICE_PROC_CODE) = ''))) THEN
+      SELECT LI.LABORISSUE_CODELITER||'_'||CAST(NEW.BASEPRICE_ID AS VARCHAR(5))
+      FROM TBL_LABORISSUE LI
+      WHERE LI.LABORISSUE_ID = OLD.BASEPRICE_PROC_ISSUE
+      INTO NEW.BASEPRICE_PROC_CODE;
+ $$IBE$$*/ POST_EVENT '$$IBE$$';
+end
+^
+
+SET TERM ; ^
+
+- деактивируем (комментируем) еще один триггер
+SET TERM ^ ;
+
+CREATE OR ALTER TRIGGER TBL_LABORISSUE_BD1 FOR TBL_LABORISSUE
+ACTIVE BEFORE DELETE POSITION 1
+AS
+begin /*$$IBE$$ 
+  if (EXISTS(
+      SELECT BP.BASEPRICE_PROC_ISSUE FROM TBL_BASEPRICE BP
+         WHERE BP.BASEPRICE_PROC_ISSUE = OLD.LABORISSUE_ID)) then
+   EXCEPTION NA_03_NO_LABORISSUE_DELETE;
+ $$IBE$$*/ POST_EVENT '$$IBE$$';
+end
+^
+
+SET TERM ; ^
+
+- переименовываем поле
+ALTER TABLE TBL_BASEPRICE ALTER BASEPRICE_PROC_ISSUE TO BASEPRICE_PROC_ISSUE_FK
+
+- исправляем и раскомментируем триггер
+SET TERM ^ ;
+
+CREATE OR ALTER TRIGGER TBL_LABORISSUE_BD1 FOR TBL_LABORISSUE
+ACTIVE BEFORE DELETE POSITION 1
+AS
+begin
+  if (EXISTS(
+      SELECT BP.BASEPRICE_PROC_ISSUE_FK FROM TBL_BASEPRICE BP
+         WHERE BP.BASEPRICE_PROC_ISSUE_FK = OLD.LABORISSUE_ID)) then
+   EXCEPTION NA_03_NO_LABORISSUE_DELETE;
+end
+^
+
+SET TERM ; ^
+
+-исправляем и раскомментируем еще один триггер
+SET TERM ^ ;
+
+CREATE OR ALTER TRIGGER TBL_BASEPRICE_BIU_1 FOR TBL_BASEPRICE
+ACTIVE BEFORE INSERT OR UPDATE POSITION 1
+AS
+begin
+  IF (INSERTING AND ((NEW.BASEPRICE_PROC_CODE IS NULL) OR (TRIM(NEW.BASEPRICE_PROC_CODE) = ''))) THEN
+      SELECT LI.LABORISSUE_CODELITER||'_'||CAST(NEW.BASEPRICE_ID AS VARCHAR(5))
+      FROM TBL_LABORISSUE LI
+      WHERE LI.LABORISSUE_ID = NEW.BASEPRICE_PROC_ISSUE_FK
+        INTO NEW.BASEPRICE_PROC_CODE;
+
+  IF (UPDATING AND ((NEW.BASEPRICE_PROC_CODE IS NULL) OR (TRIM(NEW.BASEPRICE_PROC_CODE) = ''))) THEN
+      SELECT LI.LABORISSUE_CODELITER||'_'||CAST(NEW.BASEPRICE_ID AS VARCHAR(5))
+      FROM TBL_LABORISSUE LI
+      WHERE LI.LABORISSUE_ID = OLD.BASEPRICE_PROC_ISSUE_FK
+      INTO NEW.BASEPRICE_PROC_CODE;
+end
+^
+
+SET TERM ; ^
+
+- восстанавливаем внешний ключ
+alter table TBL_BASEPRICE
+add constraint FK_TBL_BASEPRICE_1
+foreign key (BASEPRICE_PROC_ISSUE_FK)
+references TBL_LABORISSUE(LABORISSUE_ID);
+
+- восстанавливаем уникальное ограничение (которое можно было и не убирать)
+alter table TBL_BASEPRICE
+add constraint BPRICE_UNQIDX
+unique (BASEPRICE_PROC_NAME,BASEPRICE_PROC_CODE);
+
+-----------------------------------------------------------------------------
+
+(+) добавлены соответствующие права ролей на добавленную таблицу TBL_LABORISSUE
+
+GRANT SELECT, INSERT, UPDATE, REFERENCES ON TBL_ANKETA TO UROLOG;
+GRANT SELECT, REFERENCES ON TBL_BASEPRICE TO UROLOG;
+GRANT SELECT, INSERT, UPDATE, REFERENCES ON TBL_CLINIC TO UROLOG;
+GRANT SELECT, INSERT, UPDATE, REFERENCES ON TBL_CONSULTATION TO UROLOG;
+GRANT SELECT, INSERT, UPDATE, REFERENCES ON TBL_DOCTOR TO UROLOG;
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON TBL_DRUGS TO UROLOG;
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON TBL_DS TO UROLOG;
+GRANT SELECT, REFERENCES ON TBL_LABORISSUE TO UROLOG;
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON TBL_MANIP TO UROLOG;
+GRANT SELECT, REFERENCES ON TBL_MKB10 TO UROLOG;
+GRANT SELECT, REFERENCES ON TBL_PAYMENT TO UROLOG;
+GRANT SELECT, REFERENCES ON TBL_PRICE TO UROLOG;
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON TBL_RECOM TO UROLOG;
+GRANT SELECT, REFERENCES ON TBL_SERVICEINFO TO UROLOG;
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON TBL_SHEDULE TO UROLOG;
+GRANT SELECT, INSERT, UPDATE, REFERENCES ON TBL_TOWN TO UROLOG;
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON TBL_VISITBLOB TO UROLOG;
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON TBL_VISITEXAMIN TO UROLOG;
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON TBL_VISITLABOR TO UROLOG;
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON TBL_VISITMAIN TO UROLOG;
+GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON TMP_VISITBLOB TO UROLOG;
+
+-----------------------------------------------------------------------------
+
+v. 4.0.10
+==========
+(-) удалено уникальное ограничение на поля BASEPRICE_PROC_CODE и BASEPRICE_PROC_NAME (воссозданы на каждое поле отдельно)
+(+) создано уникальное ограничение ALTER TABLE TBL_BASEPRICE ADD CONSTRAINT UNQPROC_CODE_TBL_BASEPRICE UNIQUE (BASEPRICE_PROC_CODE);
+(+) создано уникальное ограничение ALTER TABLE TBL_BASEPRICE ADD CONSTRAINT UNQPROC_NAME_TBL_BASEPRICE UNIQUE (BASEPRICE_PROC_NAME);
+
+(*) косметические изменения в формах
+
+v. 4.0.11
+==========
+(*) переход на версию грида EhLib 4.4.48
+(+) добавлена форма для выбора и распечатки назначенных исследований
+(+) добавлены файлы отчета в папку \Reports\: для "Биомеда" конкретно(ResearchList_Biomed.fr3) и общего случая( ResearchList_General.fr3). По дефолту загрузится биомедовский файл, если его переименовать, то общий (учесть при распространении программы)
+
+(ВАЖНО!) необходимо полностью переустановить компоненты EhLib, предварительно деинсталлировав пакеты, почистить все bpl-файлы. При повторной установке не включать в пакеты файлы pFIBDataDriverEh.pas и EhLibFib.pas (их достаточно просто дописать в каталог с библиотекой и прописать к ним пути в самой IDE)
+
+v. 4.0.12
+==========
+(*) пофиксен баг - в ПЦР-форме вместо "Герпес" вылезало "Гепатит"
+(-) во всех "нерастягиваемых" формах из компонента TNiceSettings убраны параметры высоты и ширины формы (оставлены для чтения/записи свойства Left и Top формы)
+
+(*) изменение метаданных в таблице TBL_VISITLABOR (добавлены поля)
+ 
+(+)    MAZPROSTEPIT         DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    MAZPROSTMFAG         DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    MAZPROSTAMIL         DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    MAZPROST_PH          DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */
+
+соответственно изменено кол-во и порядок компонентов в форме FrmMazProst, а также добавлены промежуточные переменные вида VarMazProst...
+
+(*) форма с мазком уретры расширена и доработана с учетом "женского" мазка, в связи с чем в таблю TBL_VISITLABOR добавлены новые поля 
+
+(*) поле MAZUREPIT сменен тип с integer на varchar(20)
+
+  ALTER TABLE TBL_VISITLABOR DROP MAZUREPIT;
+
+  ALTER TABLE TBL_VISITLABOR
+  ADD MAZUREPIT DMN_VARCHR20
+  COLLATE WIN1251;
+
+добавлено поле MazUrMucos характеристике наличия слизи в мазке
+ 
+(+)    MAZURMUCOS           DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+
+добавлены поля для "чисто женских" характеристик
+
+(+)    MAZCVXLEU            DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    MAZCVXER             DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    MAZCVXGN             INTEGER DEFAULT 0 NOT NULL
+(+)    MAZCVXTR             INTEGER DEFAULT 0 NOT NULL
+(+)    MAZCVXFLORA          INTEGER DEFAULT 0 NOT NULL
+(+)    MAZCVXEPIT           DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    MAZCVXKEYCELL        INTEGER DEFAULT 0 NOT NULL
+(+)    MAZCVXCAND           INTEGER DEFAULT 0 NOT NULL
+(+)    MAZCVXMUCOS          DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    MAZVGNLEU            DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    MAZVGNER             DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    MAZVGNGN             INTEGER DEFAULT 0 NOT NULL
+(+)    MAZVGNTR             INTEGER DEFAULT 0 NOT NULL
+(+)    MAZVGNFLORA          INTEGER DEFAULT 0 NOT NULL
+(+)    MAZVGNEPIT           DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    MAZVGNKEYCELL        INTEGER DEFAULT 0 NOT NULL
+(+)    MAZVGNCAND           INTEGER DEFAULT 0 NOT NULL
+(+)    MAZVGNMUCOS          DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    MAZRECTLEU           DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    MAZRECTER            DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    MAZRECTGN            INTEGER DEFAULT 0 NOT NULL
+(+)    MAZRECTTR            INTEGER DEFAULT 0 NOT NULL
+(+)    MAZRECTFLORA         INTEGER DEFAULT 0 NOT NULL
+(+)    MAZRECTEPIT          DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    MAZRECTKEYCELL       INTEGER DEFAULT 0 NOT NULL
+(+)    MAZRECTCAND          INTEGER DEFAULT 0 NOT NULL
+(+)    MAZRECTMUCOS         DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */   
+
+v. 4.0.13
+==========
+Смена компонентов: 
+- EhLib 4.4.50
+- Переустановка FastReport 4.7.5 (оставлены FIB, frxDB, TeeChart)
+
+(*) изменение метаданных в таблице TBL_VISITLABOR (добавлены поля)
+
+(+)    OAMVOLUME            DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */
+(+)    OAMSMELL             DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    OAMRESIDUUM          DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    OAM_PH               DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */
+(+)    OAMACETICACID        DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    OAMBILIFUSCIN        DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    OAMACETON            DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */
+(+)    OAMUROBILIN          DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */
+(+)    OAMCYLINDR           DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    OAMMUCOS             DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */
+(+)    NECHIPORFLORA        DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+
+соответственно, изменена и дополнена форма ввода анализов мочи
+
+v. 4.0.14
+==========
+(*) смена компонента TMSComponentPack на версию 5.1.0.2 - установлены следующие пакеты
+ - tmsd7.dpk
+ - tmsexd7.dpk
+ - tmsded7.dpk
+ 
+(*) сменен EhLib до версии 4.4.54
+(*) сменен компонент Castalia 2009.2
+
+(*) в таблицу TBL_VISITBLOB добавлены новые поля
+(+)    BLOODTEXT            DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+(+)    LUESTEXT             DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+(+)    AIDSTEXT             DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+(+)    SPERMTEXT                  DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+
+
+(*) во временную таблицу TMP_VISITBLOB добавлены поля-зеркала
+(+)    TMP_BLOODTEXT                  DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+(+)    TMP_LUESTEXT                   DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+(+)    TMP_AIDSTEXT                   DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+(+)    TMP_SPERMTEXT                  DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+
+(*) во временную таблицу TMP_VISITLABOR добавлены новые поля в связи с изменениями в вводе данных маркеров гепатитов
+
+(+)    CHKHBEAG             DMN_BOOL DEFAULT 0 NOT NULL /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKANTIHBCSUM        DMN_BOOL DEFAULT 0 NOT NULL /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKANTIHBC_IGM       DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKANTIHBE_IGG       DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKANTIHBSNUMER      DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKANTIHCVSUM        DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKANTIHCV_CORE_IGM  DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKANTIHDVSUM        DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKANTIHCVSUMCORE    DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKANTIHCVSUMNS3     DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKANTIHCVSUMNS4     DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKANTIHCVSUMNS5     DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKSUMATLUES         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    HBEAG                DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    ANTIHBCSUM           DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    ANTIHBC_IGM          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    ANTIHBE_IGG          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    ANTIHCVSUM           DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    ANTIHCV_CORE_IGM     DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    ANTIHDVSUM           DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    ANTIHCVSUMCORE       DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    ANTIHCVSUMNS3        DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    ANTIHCVSUMNS4        DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    ANTIHCVSUMNS5        DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    SUMATLUES            DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    ANTIHBSNUMERSTR      DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+
+(-) удалены два поля с датой DATERW и DATEHBSAG
+(-)    ALTER TABLE TBL_VISITLABOR DROP DATERW;
+(-)    ALTER TABLE TBL_VISITLABOR DROP DATEHBSAG;
+
+v. 4.0.15
+==========
+(*) сменена версия EhLib на 4.5.59
+(*) сменена версия TMS Component Pack на 5.2.2.1
+(-) исключен "из обращения" в клиенте триггер GEN_OTHER_UNQ - кандидат на удаление (в клиенте используется GUID) 
+
+(*) в таблицу TBL_VISITBLOB добавлены новые поля
+
+(+)    URETHBACTINOCTEXT          DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+(+)    PROSTBACTINOCTEXT              DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+(+)    MICURBACTINOCTEXT              DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+
+(*) в таблицу TBL_VISITLABOR добавлены новые поля
+
+(+)    URETHBACTINOCDATE    DMN_DATE /* DMN_DATE = DATE DEFAULT CURRENT_DATE NOT NULL */
+(+)    PROSTBACTINOCDATE    DMN_DATE /* DMN_DATE = DATE DEFAULT CURRENT_DATE NOT NULL */
+(+)    MICURBACTINOCDATE    DMN_DATE /* DMN_DATE = DATE DEFAULT CURRENT_DATE NOT NULL */
+(+)    CHKURETHPATHOGEN1    DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURETHPATHOGEN2    DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    URETH_PATHOGEN1_01   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN1_02   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN1_03   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN1_04   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN1_05   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN1_06   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN1_07   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN1_08   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN1_09   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN1_10   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN1_11   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN1_12   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN1_13   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN1_14   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN1_15   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN1_16   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN2_01   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN2_02   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN2_03   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN2_04   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN2_05   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN2_06   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN2_07   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN2_08   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN2_09   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN2_10   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN2_11   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN2_12   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN2_13   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN2_14   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN2_15   INTEGER DEFAULT 0 NOT NULL
+(+)    URETH_PATHOGEN2_16   INTEGER DEFAULT 0 NOT NULL
+(+)    STRURETHPATHOGEN1    DMN_VARCHR40 /* DMN_VARCHR40 = VARCHAR(40) */
+(+)    STRURETHPATHOGEN2    DMN_VARCHR40 /* DMN_VARCHR40 = VARCHAR(40) */
+(+)    STRURETHEXTRA1       DMN_VARCHR40 /* DMN_VARCHR40 = VARCHAR(40) */
+(+)    STRURETHEXTRA2       DMN_VARCHR40 /* DMN_VARCHR40 = VARCHAR(40) */
+
+(+)    CHKPROSTPATHOGEN1    DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTPATHOGEN2    DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    PROST_PATHOGEN1_01   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN1_02   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN1_03   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN1_04   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN1_05   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN1_06   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN1_07   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN1_08   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN1_09   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN1_10   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN1_11   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN1_12   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN1_13   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN1_14   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN1_15   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN1_16   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN1_17   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_01   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_02   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_03   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_04   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_05   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_06   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_07   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_08   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_09   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_10   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_11   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_12   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_13   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_14   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_15   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_16   INTEGER DEFAULT 0 NOT NULL
+(+)    PROST_PATHOGEN2_17   INTEGER DEFAULT 0 NOT NULL
+(+)    STRPROSTPATHOGEN1    DMN_VARCHR40 /* DMN_VARCHR40 = VARCHAR(40) */
+(+)    STRPROSTPATHOGEN2    DMN_VARCHR40 /* DMN_VARCHR40 = VARCHAR(40) */
+(+)    STRPROSTEXTRA1       DMN_VARCHR40 /* DMN_VARCHR40 = VARCHAR(40) */
+(+)    STRPROSTEXTRA2       DMN_VARCHR40 /* DMN_VARCHR40 = VARCHAR(40) */
+
+(+)    CHKURBACTINOCPATHOGEN   DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKMICBACTINOCPATHOGEN  DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    NUMEDTURBACTINOC        INTEGER DEFAULT 3 NOT NULL CHECK (NUMEDTURBACTINOC BETWEEN 2 AND 8)
+(+)    NUMEDTMICBACTINOC       INTEGER DEFAULT 3 NOT NULL CHECK (NUMEDTMICBACTINOC BETWEEN 2 AND 8)
+(+)    URPATHOGEN1_01          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN1_02          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN1_03          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN1_04          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN1_05          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN1_06          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN1_07          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN1_08          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN1_09          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN1_10          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN2_01          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN2_02          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN2_03          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN2_04          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN2_05          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN2_06          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN2_07          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN2_08          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN2_09          INTEGER DEFAULT 0 NOT NULL,
+(+)    URPATHOGEN2_10          INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN1_01         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN1_02         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN1_03         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN1_04         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN1_05         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN1_06         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN1_07         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN1_08         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN1_09         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN1_10         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN2_01         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN2_02         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN2_03         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN2_04         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN2_05         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN2_06         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN2_07         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN2_08         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN2_09         INTEGER DEFAULT 0 NOT NULL,
+(+)    MICPATHOGEN2_10         INTEGER DEFAULT 0 NOT NULL
+(+)    STRMICUREXTRA1          DMN_VARCHR40 /* DMN_VARCHR40 = VARCHAR(40) */
+(+)    STRMICUREXTRA2          DMN_VARCHR40 /* DMN_VARCHR40 = VARCHAR(40) */
+(+)    STREXTRA1UR_VAL1        DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    STREXTRA1UR_VAL2        DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    STREXTRA2UR_VAL1        DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    STREXTRA2UR_VAL2        DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    STREXTRA1MIC_VAL1       DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    STREXTRA1MIC_VAL2       DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    STREXTRA2MIC_VAL1       DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+(+)    STREXTRA2MIC_VAL2       DMN_VARCHR20 /* DMN_VARCHR20 = VARCHAR(20) */
+
+(+)    CHKURETHDRUG_01         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURETHDRUG_02         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURETHDRUG_03         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURETHDRUG_04         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURETHDRUG_05         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURETHDRUG_06         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURETHDRUG_07         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURETHDRUG_08         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURETHDRUG_09         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURETHDRUG_10         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURETHDRUG_11         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURETHDRUG_12         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURETHDRUG_13         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURETHDRUG_14         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURETHDRUG_15         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURETHDRUG_16         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+
+(+)    CHKPROSTDRUG_01         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTDRUG_02         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTDRUG_03         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTDRUG_04         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTDRUG_05         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTDRUG_06         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTDRUG_07         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTDRUG_08         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTDRUG_09         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTDRUG_10         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTDRUG_11         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTDRUG_12         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTDRUG_13         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTDRUG_14         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTDRUG_15         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTDRUG_16         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKPROSTDRUG_17         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+
+(+)    CHKMICURDRUG_01         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKMICURDRUG_02         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKMICURDRUG_03         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKMICURDRUG_04         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKMICURDRUG_05         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKMICURDRUG_06         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKMICURDRUG_07         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKMICURDRUG_08         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKMICURDRUG_09         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKMICURDRUG_10         DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+
+(+)    NUMEDTURETHBACT1        INTEGER DEFAULT 3 NOT NULL CHECK (NUMEDTURETHBACT1 BETWEEN 2 AND 8)
+(+)    NUMEDTURETHBACT2        INTEGER DEFAULT 3 NOT NULL CHECK (NUMEDTURETHBACT2 BETWEEN 2 AND 8)
+(+)    NUMEDTPROSTBACT1        INTEGER DEFAULT 3 NOT NULL CHECK (NUMEDTPROSTBACT1 BETWEEN 2 AND 8)
+(+)    NUMEDTPROSTBACT2        INTEGER DEFAULT 3 NOT NULL CHECK (NUMEDTPROSTBACT2 BETWEEN 2 AND 8)
+
+
+v. 4.0.16
+==========
+(*) в таблицу TBL_VISITLABOR добавлены поля 
+
+(+)    PGCTRL_LABRES_INDEX     INTEGER DEFAULT 0 NOT NULL -- номер открываемой вкладки лаб.исследований
+
+(+)    IONES_NA                DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */ -- электролиты 
+(+)    IONES_K                 DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */ -- электролиты 
+(+)    IONES_CL                DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */ -- электролиты 
+(+)    IONES_CA                DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */ -- электролиты 
+(+)    IONESBLOOD_PH           DMN_VARCHR10 /* DMN_VARCHR10 = VARCHAR(10) */ -- электролиты
+(+)    BLOODIONESDATE          DMN_DATE /* DMN_DATE = DATE DEFAULT CURRENT_DATE NOT NULL */ -- дата исследования электролитов
+(+)    PGCTRL_BLOODHORM_INDEX  INTEGER DEFAULT 0 NOT NULL -- номер открываемой вкладки анализов крови
+
+       -- поля для отображения и сохранения результатов бак.посева мочи
+(+)    URINBACTINOCDATE        DMN_DATE /* DMN_DATE = DATE DEFAULT CURRENT_DATE NOT NULL */
+(+)    CHKURINPATHOGEN1        DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINPATHOGEN2        DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    URIN_PATHOGEN1_01       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_02       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_03       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_04       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_05       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_06       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_07       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_08       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_09       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_10       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_11       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_12       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_13       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_14       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_15       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_16       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_17       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_18       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_19       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN1_20       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_01       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_02       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_03       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_04       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_05       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_06       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_07       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_08       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_09       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_10       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_11       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_12       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_13       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_14       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_15       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_16       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_17       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_18       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_19       INTEGER DEFAULT 0 NOT NULL
+(+)    URIN_PATHOGEN2_20       INTEGER DEFAULT 0 NOT NULL
+(+)    NUMEDTURIN1             INTEGER DEFAULT 3 NOT NULL CHECK (NUMEDTURIN1 BETWEEN 2 AND 8)
+(+)    NUMEDTURIN2             INTEGER DEFAULT 3 NOT NULL CHECK (NUMEDTURIN2 BETWEEN 2 AND 8)
+(+)    STRURINPATHOGEN1        DMN_VARCHR40 /* DMN_VARCHR40 = VARCHAR(40) */
+(+)    STRURINPATHOGEN2        DMN_VARCHR40 /* DMN_VARCHR40 = VARCHAR(40) */
+(+)    STRURINEXTRA1           DMN_VARCHR40 /* DMN_VARCHR40 = VARCHAR(40) */
+(+)    STRURINEXTRA2           DMN_VARCHR40 /* DMN_VARCHR40 = VARCHAR(40) */
+(+)    CHKURINDRUG_01          DMN_BOOL /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_02          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_03          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_04          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_05          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_06          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_07          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_08          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_09          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_10          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_11          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_12          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_13          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_14          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_15          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_16          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_17          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_18          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_19          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    CHKURINDRUG_20          DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+
+(*) в таблицу TBL_VISITMAIN добавленs поле для сохранения жалоб
+
+(+)    ISHURIA                 DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */ -- задержка мочи
+(+)    INCONTINENCE            DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */ -- недержание (неудержание) мочи
+(+)    INCONTINENCECASE        INTEGER DEFAULT 0 NOT NULL -- случаи недержания мочи
+
+(*) в таблицу TBL_VISITEXAMIN добавлены дополнительные поля для УЗИ почек и мочевого пузыря
+
+(+)    DEXTRENPOSIT            INTEGER DEFAULT 0 NOT NULL
+(+)    DEXTRENRMVBL            INTEGER DEFAULT 0 NOT NULL
+(+)    DEXTRENPATHPREC         INTEGER DEFAULT 0 NOT NULL
+(+)    DEXTRENPATHEVEN         INTEGER DEFAULT 0 NOT NULL
+(+)    SINRENPOSIT             INTEGER DEFAULT 0 NOT NULL
+(+)    SINRENRMVBL             INTEGER DEFAULT 0 NOT NULL
+(+)    SINRENPATHPREC          INTEGER DEFAULT 0 NOT NULL
+(+)    SINRENPATHEVEN          INTEGER DEFAULT 0 NOT NULL
+(+)    VESICURPATHPREC         INTEGER DEFAULT 0 NOT NULL
+(+)    VESICURPATHEVEN         INTEGER DEFAULT 0 NOT NULL
+(+)    VESICURWALLDENSITY      INTEGER DEFAULT 2 NOT NULL
+(+)    VESICURWALLTHICKN       INTEGER DEFAULT 0 NOT NULL
+(+)    VESICUR_06              DMN_VARCHR5 /* DMN_VARCHR5 = VARCHAR(5) */
+
+(*)в таблицу TMP_VISITBLOB добавлено поле
+(+)    TMP_IONES               DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+
+(*)в таблицу TBL_VISITBLOB добавлены поля
+(+)    IONES                   DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+(+)    URINBACTINOCTEXT        DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+
+v. 4.0.17
+==========
+(+) Введены глобальные переменные-идентификаторы ID некоторых таблиц для облегчения ввода постоянных для RT величин (напр., фамилия доктора, клиника и проч.)
+(*) внесены некоторые изменения в форму распечатки данных для исследований.
+
+(*) Добавлены поля в таблицу TBL_VISITEXAMIN для описания УЗДГ сосудов мошонки
+
+(+)    UZIDOPPLERTESTISDATE            DMN_DATE /* DMN_DATE = DATE DEFAULT CURRENT_DATE NOT NULL */
+(+)    CHKDOPPLERTESTIS                DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+(+)    VASAFUNICDEXT                   INTEGER DEFAULT 0 NOT NULL
+(+)    VALSALVEDEXT                    INTEGER DEFAULT 0 NOT NULL
+(+)    VASAFUNICPARENCHDEXT            INTEGER DEFAULT 0 NOT NULL
+(+)    VASAFUNICSIN                    INTEGER DEFAULT 0 NOT NULL
+(+)    VALSALVESIN                     INTEGER DEFAULT 0 NOT NULL
+(+)    VASAFUNICPARENCHSIN             INTEGER DEFAULT 0 NOT NULL
+(+)    STRVASAFUNIC_HORZDEXT           DMN_VARCHR5 /* DMN_VARCHR5 = VARCHAR(5) */
+(+)    STRVASAFUNIC_VERTDEXT           DMN_VARCHR5 /* DMN_VARCHR5 = VARCHAR(5) */
+(+)    STRVASA_LSKFUNICDEXT            DMN_VARCHR5 /* DMN_VARCHR5 = VARCHAR(5) */
+(+)    STRVASA_LSKTESTISDEXT           DMN_VARCHR5 /* DMN_VARCHR5 = VARCHAR(5) */
+(+)    STRVASAFUNIC_HORZSIN            DMN_VARCHR5 /* DMN_VARCHR5 = VARCHAR(5) */
+(+)    STRVASAFUNIC_VERTSIN            DMN_VARCHR5 /* DMN_VARCHR5 = VARCHAR(5) */
+(+)    STRVASA_LSKFUNICSIN             DMN_VARCHR5 /* DMN_VARCHR5 = VARCHAR(5) */
+(+)    STRVASA_LSKTESTISSIN            DMN_VARCHR5 /* DMN_VARCHR5 = VARCHAR(5) */
+
+(+)    PGCTRLUZIGENIT                  INTEGER DEFAULT 0 NOT NULL -- номер в последний раз открытой вкладки
+
+(+)    UZIPROSTECHOGENDEXT             INTEGER DEFAULT 0 NOT NULL -- описание УЗИ простаты
+(+)    UZIPROSTECHOGENSIN              INTEGER DEFAULT 0 NOT NULL -- описание УЗИ простаты
+(+)    CHKUZIVESICSEMIN                DMN_BOOL DEFAULT 1 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+
+v. 4.0.18
+==========
+(*) Исправлены события обновления главного и "детального" окон (RefrashMainWindow, RefreshDetailWindow);
+(*) Исправлено сообщение при удалении пациента из базы (показана ФИО с учетом падежа и пола)
+
+(*) в таблицу TBL_SHEDULE добавлено поле
+(+)    SHEDUL_EMOT        INTEGER DEFAULT 0 NOT NULL -- для отображения смайликов эмоций на соответствующей форме и гриде
+
+(**********************************************************************************************)
+также добавлены два триггера для изменения значения поля TBL_ANKETA.SHEDUL_EXISTS в зависимости от наличия подчиненных записей
+
+(+)/* Trigger: TBL_SHEDULE_AI */
+CREATE OR ALTER TRIGGER TBL_SHEDULE_AI FOR TBL_SHEDULE
+ACTIVE AFTER INSERT OR UPDATE POSITION 0
+AS
+BEGIN
+  IF (EXISTS(SELECT
+                   A.ID_ANKETA
+             FROM TBL_ANKETA A
+             WHERE
+                  A.ID_ANKETA = NEW.SHEDUL_LINKANKETA)) THEN
+    UPDATE TBL_ANKETA A
+    SET
+      A.SHEDUL_EXISTS = 1
+    WHERE
+        A.ID_ANKETA = NEW.SHEDUL_LINKANKETA;
+  ELSE
+    UPDATE TBL_ANKETA A
+    SET
+      A.SHEDUL_EXISTS = 0
+    WHERE
+        A.ID_ANKETA = NEW.SHEDUL_LINKANKETA;
+END
+^
+(**********************************************************************************************)
+(+)/* Trigger: TBL_SHEDULE_AD */
+CREATE OR ALTER TRIGGER TBL_SHEDULE_AD FOR TBL_SHEDULE
+ACTIVE AFTER DELETE POSITION 0
+AS
+BEGIN
+  IF (EXISTS(SELECT
+                   SH.SHEDUL_LINKANKETA
+             FROM TBL_SHEDULE SH
+             WHERE
+                  SH.SHEDUL_LINKANKETA = (SELECT A.ID_ANKETA
+                                          FROM TBL_ANKETA A
+                                          WHERE
+                                               A.ID_ANKETA = OLD.SHEDUL_LINKANKETA))) THEN
+    UPDATE TBL_ANKETA A
+    SET
+      A.SHEDUL_EXISTS = 1
+    WHERE
+        A.ID_ANKETA = OLD.SHEDUL_LINKANKETA;
+  ELSE
+    UPDATE TBL_ANKETA A
+    SET
+      A.SHEDUL_EXISTS = 0
+    WHERE
+        A.ID_ANKETA = OLD.SHEDUL_LINKANKETA;
+END
+^
+(**********************************************************************************************)
+
+(*) в таблицу TBL_ANKETA добавлено поле
+(+) SHEDUL_EXISTS  INTEGER DEFAULT 0 NOT NULL -- признак наличия/отсутствия "детальных" записей в TBL_SHEDULE
+
+(**********************************************************************************************)
+изменен триггер в TBL_ANKETA
+(*)/* Trigger: TBL_ANKETA_BD_1 */
+CREATE OR ALTER TRIGGER TBL_ANKETA_BD_1 FOR TBL_ANKETA
+ACTIVE BEFORE DELETE POSITION 1
+AS
+BEGIN
+  -- если есть подчиненные записи в таблице визитов
+  IF (EXISTS(
+      SELECT V.VIS_LINKANKETA FROM TBL_VISITMAIN V
+         WHERE V.VIS_LINKANKETA = OLD.ID_ANKETA))
+    THEN
+        EXCEPTION N3_NO_EMPTY_ANKETA_DELETE; -- поругаемся и дадим отлуп
+    ELSE
+        DELETE -- удалим прежде подчиненные записи из TBL_SHEDULE
+        FROM TBL_SHEDULE SH
+        WHERE SH.SHEDUL_LINKANKETA = OLD.ID_ANKETA;
+END
+^
+(**********************************************************************************************)
+
+В главный грид добавлена графа с пиктограммой о наличии/отсутствии пометок у пациента
+
+v. 4.0.19
+==========
+(*) снова исправлены события обновления главного и "детального" окон (RefrashMainWindow, RefreshDetailWindow) - вернул назад позиционирование записи в них;
+(*) оптимизирован код при добавлении/изменении записей в главном и "детальном" гридах, добавлены проверки на существование редактируемых записей в формах, где добавляются "главные" и "детальные" записи
+(*) в опциях датасетов DSetTotalPat и DSetSinglePat отключено свойство восстановление внутренней локальной сортировки (poKeepSorting) и рефреш датасета после метода Post(poRefreshAfterPost)
+
+создано новое пользовательское исключение
+(+) CREATE EXCEPTION NA_05_NO_EMPTY_TBL_SHEDULE 'You can not delete patient required by Tbl_Shedule';
+
+
+(***************************************************************************)
+изменен триггер
+(*) 
+CREATE OR ALTER TRIGGER TBL_ANKETA_BD_1 FOR TBL_ANKETA
+ACTIVE BEFORE DELETE POSITION 1
+AS
+BEGIN
+  -- если есть подчиненные записи в таблице визитов
+  IF (EXISTS(
+      SELECT V.VIS_LINKANKETA FROM TBL_VISITMAIN V
+         WHERE V.VIS_LINKANKETA = OLD.ID_ANKETA))
+    THEN
+        EXCEPTION N3_NO_EMPTY_ANKETA_DELETE; -- поругаемся и дадим отлуп
+END
+^
+
+/* Privileges of triggers */
+GRANT UPDATE, REFERENCES ON TBL_ANKETA TO TRIGGER TBL_ANKETA_BD_1;
+GRANT SELECT ON TBL_VISITMAIN TO TRIGGER TBL_ANKETA_BD_1;
+
+(***************************************************************************)
+добавлен новый триггер
+(+) CREATE OR ALTER TRIGGER TBL_ANKETA_BD_2 FOR TBL_ANKETA
+ACTIVE BEFORE DELETE POSITION 2
+as
+begin
+  -- если есть подчиненные записи в таблице пометок
+  IF (EXISTS(
+      SELECT SH.SHEDUL_LINKANKETA FROM TBL_SHEDULE SH
+         WHERE SH.SHEDUL_LINKANKETA = OLD.ID_ANKETA))
+    THEN
+        EXCEPTION NA_05_NO_EMPTY_TBL_SHEDULE; -- поругаемся и дадим отлуп
+end
+^
+
+(***************************************************************************)
+(*) мелкие изменения структуре и коде справочника ЛПУ, изменения в гриде на форме (Мемо отображается непосредственно в гриде), в перспективе добавление в грид блоб-картинок, когда будет исправлена бага для FB/IB
+
+(*) в таблицу TBL_DRUGS введено новое поле
+(+)     DRUGRECIPE    DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */-- рецептурная пропись препарата
+
+(*) об-null-ены поля DRUGNOTE в таблице TBL_DRUGS 
+UPDATE TBL_DRUGS SET DRUGNOTE = NULL
+
+(*) переделана форма выбора лекарств, добавлена печать рецептурного бланка
+
+v. 4.0.20
+==========
+(*) переделана форма со списком диагнозов, добавлена возможность предварительного выбора
+(*) переделана форма со списком рекомендаций, добавлена возможность предварительного выбора
+(*) переделана форма со списком манипуляций, добавлена возможность предварительного выбора
+
+v. 4.0.21
+==========
+(*) в формах FrmDrugs и FrmStatusPat стандартные ричэдиты заменены на продвинутый компонент TwwDBRichEdit из пакета InfoPower 4000.6 Pro
+
+(*) в таблицу TBL_VISITBLOB добавлено новое поле для хранения конфиденциальных сведений
+(+)       SECRET_STUFF               DMN_BLOBTXT /* DMN_BLOBTXT = BLOB SUB_TYPE 1 SEGMENT SIZE 80 */
+
+(*) в таблицу TBL_VISITMAIN добавлено новое поле для отображения/сокрытия конфиденциальных сведений в поле SECRET_STUFF
+(+)       CHKSECRET_STUFF           DMN_BOOL DEFAULT 0 /* DMN_BOOL = SMALLINT NOT NULL CHECK (VALUE IN (0,1)) */
+
+v. 4.0.22
+==========
+(*) исправлен глюк в FrmStPat, когда не отображались данные гормонов и проч.
+(*) изменены иконки в интерфейсе программы
+
+v. 4.0.23
+==========
+(*) исправлен глюк с потерей форматирования перед сохранением данных в ричэдитах лечения, манипуляций и рекомендаций
+(*) в форму базового прайс-листа добавлено несколько дополнительных панелей ввода услуг, расширены формы бызового и готового прайса
+(*) изменены размеры формы со справочником населенных пунктов
+(*) изменены размеры форм со спсиком докторов и часами их приема
+(*) изменены формы отчетности (можно печатать в формах А4 и А5)
+(*) исправлены попап-менюшки
+
+ВСЕ! Готовимся к новому релизу, скорее всего будет переход на новую минорную версию сервера FB (2.1.2 или 2.1.3) и переход на новую IDE (D2009 или D2010)
+
+v. 4.0.23 build 2 RC 
+==========
+(*) замена компонентов TjvSpeedButton на TSpeedButton
+(*) переход на сервер FB 2.1.3
+
+v. 4.0.24
+===============
+- уход с InfoPower на собранный "вручную" стандартный редактор
+- переход с компонента CoolTrayIcon на стандартный TTrayIcon
+- почищен "мусор" в виде адаптированных под InfoPower процедур и функций 
+
+v. 4.0.25
+=============== 
+- промежуточный релиз с критическими ошибками в коде
+
+v. 4.0.26
+===============
+- отладочная база "порезана" до 21 пациента в целях облегчения работы с ней
+- временно отключены undo/redo во встроенном редакторе
+- пофиксены баги перехода с InfoPower 
+
+v. 4.0.27
+===============
+- оптимизирован DML вставки записи во временную таблицу визитов 

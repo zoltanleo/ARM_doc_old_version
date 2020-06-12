@@ -1,0 +1,210 @@
+unit uImgBloodBioFotos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, OleCtnrs, DB, FIBDataSet, Buttons, ExtDlgs,
+  NiceSettings, AppEvnts;
+
+type
+  TFrmImgBloodBioFotos = class(TForm)
+    PnlImg: TPanel;
+    PnlBtnBar: TPanel;
+    BtnSave: TButton;
+    BtnCancel: TButton;
+    PnlCap: TPanel;
+    LblName: TLabel;
+    LblCaption: TLabel;
+    ImgCont: TImage;
+    SpBtnAdd: TSpeedButton;
+    SpBtnDel: TSpeedButton;
+    OpenPictDialog: TOpenPictureDialog;
+    NiceSetFrmImgBloodBioFotos: TNiceSettings;
+    AppEventsImgBloodBioFotos: TApplicationEvents;
+    procedure FormShow(Sender: TObject);
+    procedure BtnSaveClick(Sender: TObject);
+    procedure BtnCancelClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure SpBtnAddClick(Sender: TObject);
+    procedure SpBtnDelClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure AppEventsImgBloodBioFotosShortCut(var Msg: TWMKey; var Handled: Boolean);
+  private
+    { Private declarations }
+    procedure LoadPictToImgbox(Sender: TImage; var FExt: String);
+    procedure ClearPictImgbox(Sender: TImage);
+    procedure RepaintSpBtnDel(Sender: TObject);
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmImgBloodBioFotos: TFrmImgBloodBioFotos;
+
+implementation
+
+uses DMFIBUnit, StatusPatUnit, VarAndrUnit;
+var TmpFExt: String;
+
+{$R *.dfm}
+
+//----------------------------------------------------------------------------
+
+procedure TFrmImgBloodBioFotos.FormCreate(Sender: TObject);
+begin
+//грузим параметры формы
+NiceSetFrmImgBloodBioFotos.LoadSettings;
+
+TmpFExt:= DMFIB.DSetTmpBlobVisit.FN('TMP_BLOODBIOFOTOS_EXT').AsString;
+end;
+//----------------------------------------------------------------------------
+
+procedure TFrmImgBloodBioFotos.FormShow(Sender: TObject);
+var TmpFPath: String;
+begin
+//форматируем и отображаем заголовок
+LblName.Caption:= FullPatName;
+LblCaption.Caption:= ' - скан результата биохимического анализа крови пациента';
+
+with DMFIB, DSetTmpBlobVisit do
+  begin
+  //если поле не пустое, то заливаем картинку
+  if not FN('TMP_BLOODBIOFOTOS').IsNull then
+    begin
+      TmpFPath:= FPath + '\BloodBioTmpImg' + FN('TMP_BLOODBIOFOTOS_EXT').AsString;
+      TBlobField(FN('TMP_BLOODBIOFOTOS')).SaveToFile(TmpFPath);
+        try
+          ImgCont.Picture.LoadFromFile(TmpFPath);
+        except
+          Application.MessageBox('Не удается загрузить картинку из базы данных!',
+                                                              'Ошибка доступа к данным');
+        end;
+    end;
+  end;
+
+FormResize(Sender);
+end;
+
+//----------------------------------------------------------------------------
+
+procedure TFrmImgBloodBioFotos.BtnSaveClick(Sender: TObject);
+begin
+with DMFIB, DSetTmpBlobVisit do
+  begin
+    Edit;
+    if ImgCont.Picture.Graphic <> nil
+      then
+        begin
+          ImgCont.Picture.SaveToFile(FPath + '\BloodBioTmpImg.tmp');//сохраняем во временный файл
+          TBlobField(FN('TMP_BLOODBIOFOTOS')).LoadFromFile(FPath + '\BloodBioTmpImg.tmp');
+          FN('TMP_BLOODBIOFOTOS_EXT').AsString:= TmpFExt;
+        end {if ImgCont.Picture.Graphic <> nil ..then}
+      else //иначе канва пустая, поэтому "обнулим" поле
+        begin
+          TBlobField(FN('TMP_BLOODBIOFOTOS')).Clear;
+          FN('TMP_BLOODBIOFOTOS_EXT').AsString:= '';
+        end;
+    if DSetTmpBlobVisit.Modified then Post;
+  end;
+
+Close;
+end;
+
+//----------------------------------------------------------------------------
+
+procedure TFrmImgBloodBioFotos.AppEventsImgBloodBioFotosShortCut(var Msg: TWMKey; var Handled: Boolean);
+begin
+//реагируем на "хоткеи"
+if (GetKeyState(VK_CONTROL) < 0) and (GetKeyState(VK_RETURN) < 0) then  BtnSaveClick(Self);
+if ((GetKeyState(VK_CONTROL) < 0) and (GetKeyState(Ord('Q')) < 0)) or (GetKeyState(VK_F12) < 0) then BtnCancelClick(Self);
+
+AppEventsImgBloodBioFotos.CancelDispatch;
+end;
+
+//----------------------------------------------------------------------------
+
+procedure TFrmImgBloodBioFotos.BtnCancelClick(Sender: TObject);
+begin
+if DMFIB.DSetTmpBlobVisit.Modified then DMFIB.DSetTmpBlobVisit.Cancel;
+Close;
+end;
+
+//----------------------------------------------------------------------------
+
+procedure TFrmImgBloodBioFotos.FormResize(Sender: TObject);
+begin
+LblName.Left:= (PnlCap.Width - LblName.Width - 5 - LblCaption.Width) div 2;
+LblCaption.Left:= LblName.Left + LblName.Width + 5;
+end;
+
+//----------------------------------------------------------------------------
+
+procedure TFrmImgBloodBioFotos.ClearPictImgbox(Sender: TImage);
+begin
+TImage(Sender).Picture.Graphic:= nil;
+end;
+
+//----------------------------------------------------------------------------
+
+procedure TFrmImgBloodBioFotos.RepaintSpBtnDel(Sender: TObject);
+begin
+SpBtnDel.Enabled:= (ImgCont.Picture.Graphic <> nil);
+end;
+
+//----------------------------------------------------------------------------
+
+procedure TFrmImgBloodBioFotos.LoadPictToImgbox(Sender: TImage; var FExt: String);
+begin
+FExt:= '';
+if OpenPictDialog.Execute then
+  begin
+    //проверка размера файла в байтах (для каждого случая подбирать индивидуально)
+    if GetFileSize(OpenPictDialog.FileName) > 500000 then
+      begin
+        Application.MessageBox('Размер загружаемого в БД файла не должен превышать 500 Kb!'
+                           + #13#10 + 'Попробуйте уменьшить вес картинки в каком-нибудь '
+                           + 'графическом редакторе.', 'Ошибка доступа к данным,',
+                           MB_ICONINFORMATION);
+        Exit;
+      end;
+    try
+      TImage(Sender).Picture.LoadFromFile(OpenPictDialog.FileName);
+      FExt:= Trim(ExtractFileExt(OpenPictDialog.FileName));
+    except
+      Application.MessageBox('Не удалось загрузить изображение! Возможно файл поврежден '
+                 + 'или его содержимое не является графикой.','Ошибка доступа к данным');
+      FExt:= '';
+    end;
+  end;
+end;
+
+//----------------------------------------------------------------------------
+
+procedure TFrmImgBloodBioFotos.SpBtnAddClick(Sender: TObject);
+begin
+LoadPictToImgbox(ImgCont, TmpFExt);
+RepaintSpBtnDel(Sender);
+end;
+
+//----------------------------------------------------------------------------
+
+procedure TFrmImgBloodBioFotos.SpBtnDelClick(Sender: TObject);
+begin
+ClearPictImgbox(ImgCont);
+RepaintSpBtnDel(Sender);
+end;
+
+//----------------------------------------------------------------------------
+
+procedure TFrmImgBloodBioFotos.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+//сохраняем параметры формы
+NiceSetFrmImgBloodBioFotos.SaveSettings;
+end;
+
+//----------------------------------------------------------------------------
+
+end.

@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{8149c013-f002-4f19-adf4-9abd9b24f9b4}</ProjectGuid>
+    <MainSource>AndrologyProject.dpr</MainSource>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+    <DCC_DependencyCheckOutputName>..\debug_ARMDoc\AndrologyProject.exe</DCC_DependencyCheckOutputName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_DebugInformation>False</DCC_DebugInformation>
+    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    <DCC_UnitSearchPath>C:\CodeGear\DelphiComp\jvcl\jcl-master\jcl\lib\d11\debug;C:\DelphiComp\jvcl\jcl-master\jcl\lib\d11\debug;C:\PROGRA~1\JVCL338\jcl\lib\d11\debug;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;C:\Program Files\JVCL339\jcl\lib\d11\debug</DCC_UnitSearchPath>
+    <DCC_ResourcePath>C:\CodeGear\DelphiComp\jvcl\jcl-master\jcl\lib\d11\debug;C:\DelphiComp\jvcl\jcl-master\jcl\lib\d11\debug;C:\PROGRA~1\JVCL338\jcl\lib\d11\debug;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;C:\Program Files\JVCL339\jcl\lib\d11\debug</DCC_ResourcePath>
+    <DCC_ObjPath>C:\CodeGear\DelphiComp\jvcl\jcl-master\jcl\lib\d11\debug;C:\DelphiComp\jvcl\jcl-master\jcl\lib\d11\debug;C:\PROGRA~1\JVCL338\jcl\lib\d11\debug;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;C:\Program Files\JVCL339\jcl\lib\d11\debug</DCC_ObjPath>
+    <DCC_IncludePath>C:\CodeGear\DelphiComp\jvcl\jcl-master\jcl\lib\d11\debug;C:\DelphiComp\jvcl\jcl-master\jcl\lib\d11\debug;C:\PROGRA~1\JVCL338\jcl\lib\d11\debug;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;C:\Program Files\JVCL339\jcl\lib\d11\debug</DCC_IncludePath>
+    <DCC_Define>RELEASE</DCC_Define>
+    <DCC_ExeOutput>..\release_ARMDoc</DCC_ExeOutput>
+    <DCC_DcuOutput>.\units</DCC_DcuOutput>
+    <DCC_ObjOutput>.\units</DCC_ObjOutput>
+    <DCC_HppOutput>.\units</DCC_HppOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_UnitSearchPath>C:\CodeGear\DelphiComp\jvcl\jcl-master\jcl\lib\d11\debug;C:\DelphiComp\jvcl\jcl-master\jcl\lib\d11\debug;C:\Program Files\Jedy\jcl\lib\d11\debug;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;C:\Program Files\JVCL\jcl\lib\d11\debug;C:\PROGRA~1\JVCL338\jcl\lib\d11\debug;C:\Program Files\JVCL339\jcl\lib\d11\debug</DCC_UnitSearchPath>
+    <DCC_ResourcePath>C:\CodeGear\DelphiComp\jvcl\jcl-master\jcl\lib\d11\debug;C:\DelphiComp\jvcl\jcl-master\jcl\lib\d11\debug;C:\Program Files\Jedy\jcl\lib\d11\debug;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;C:\Program Files\JVCL\jcl\lib\d11\debug;C:\PROGRA~1\JVCL338\jcl\lib\d11\debug;C:\Program Files\JVCL339\jcl\lib\d11\debug</DCC_ResourcePath>
+    <DCC_ObjPath>C:\CodeGear\DelphiComp\jvcl\jcl-master\jcl\lib\d11\debug;C:\DelphiComp\jvcl\jcl-master\jcl\lib\d11\debug;C:\Program Files\Jedy\jcl\lib\d11\debug;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;C:\Program Files\JVCL\jcl\lib\d11\debug;C:\PROGRA~1\JVCL338\jcl\lib\d11\debug;C:\Program Files\JVCL339\jcl\lib\d11\debug</DCC_ObjPath>
+    <DCC_IncludePath>C:\CodeGear\DelphiComp\jvcl\jcl-master\jcl\lib\d11\debug;C:\DelphiComp\jvcl\jcl-master\jcl\lib\d11\debug;C:\Program Files\Jedy\jcl\lib\d11\debug;$(BDS)\lib\Debug;$(BDS)\Lib\Debug\Indy10;C:\Program Files\JVCL\jcl\lib\d11\debug;C:\PROGRA~1\JVCL338\jcl\lib\d11\debug;C:\Program Files\JVCL339\jcl\lib\d11\debug</DCC_IncludePath>
+    <DCC_Define>DEBUG</DCC_Define>
+    <DCC_SymbolReferenceInfo>2</DCC_SymbolReferenceInfo>
+    <DCC_DebugInfoInExe>True</DCC_DebugInfoInExe>
+    <DCC_DebugVN>True</DCC_DebugVN>
+    <DCC_ExeOutput>..\debug_ARMDoc</DCC_ExeOutput>
+    <DCC_DcuOutput>.\units</DCC_DcuOutput>
+    <DCC_ObjOutput>.\units</DCC_ObjOutput>
+    <DCC_HppOutput>.\units</DCC_HppOutput>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Delphi.Personality</Borland.Personality>
+    <Borland.ProjectType>VCLApplication</Borland.ProjectType>
+    <BorlandProject>
+<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">True</VersionInfo><VersionInfo Name="MajorVer">4</VersionInfo><VersionInfo Name="MinorVer">3</VersionInfo><VersionInfo Name="Release">23</VersionInfo><VersionInfo Name="Build">191</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">True</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1049</VersionInfo><VersionInfo Name="CodePage">1251</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName">Leybasoft</VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">4.3.23.191</VersionInfoKeys><VersionInfoKeys Name="InternalName">ARMDoc v.4.3</VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName">ARM Practitioner's workplace</VersionInfoKeys><VersionInfoKeys Name="ProductVersion">4.3</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys><VersionInfoKeys Name="PrivateBuild"></VersionInfoKeys><VersionInfoKeys Name="SpecialBuild"></VersionInfoKeys><VersionInfoKeys Name="LastCompiledTime">20.08.2011 13:03:46</VersionInfoKeys><VersionInfoKeys Name="Last Compile">24.09.2011 14:32:35</VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">AndrologyProject.dpr</Source></Source><Excluded_Packages /></Delphi.Personality><ModelSupport>False</ModelSupport></BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
+  <ItemGroup>
+    <DelphiCompile Include="AndrologyProject.dpr">
+      <MainSource>MainSource</MainSource>
+    </DelphiCompile>
+    <DCCReference Include="BasePriceUnit.pas">
+      <Form>FrmBasePrice</Form>
+    </DCCReference>
+    <DCCReference Include="BloodHormUnit.pas">
+      <Form>FrmBloodHorm</Form>
+    </DCCReference>
+    <DCCReference Include="ConnectUnit.pas">
+      <Form>FrmConnect</Form>
+    </DCCReference>
+    <DCCReference Include="ConnectUnit_emb.pas">
+      <Form>FrmConnect_emd</Form>
+    </DCCReference>
+    <DCCReference Include="DMFIBUnit.pas">
+      <Form>DMFIB</Form>
+      <DesignClass>TDataModule</DesignClass>
+    </DCCReference>
+    <DCCReference Include="IFAUnit.pas">
+      <Form>FrmIFA</Form>
+    </DCCReference>
+    <DCCReference Include="MainAndrUnit.pas">
+      <Form>FrmMainProg</Form>
+    </DCCReference>
+    <DCCReference Include="MazProstUnit.pas">
+      <Form>FrmMazProst</Form>
+    </DCCReference>
+    <DCCReference Include="MazUrethraUnit.pas">
+      <Form>FrmMazUrethra</Form>
+    </DCCReference>
+    <DCCReference Include="MKBUnit.pas">
+      <Form>FrmMKBView</Form>
+    </DCCReference>
+    <DCCReference Include="OAMUnit.pas">
+      <Form>FrmOAM</Form>
+    </DCCReference>
+    <DCCReference Include="PCRUnit.pas">
+      <Form>FrmPCR</Form>
+    </DCCReference>
+    <DCCReference Include="ReseachLuesUnit.pas">
+      <Form>FrmResearchLues</Form>
+    </DCCReference>
+    <DCCReference Include="ShedulUnit.pas">
+      <Form>FrmShedul</Form>
+    </DCCReference>
+    <DCCReference Include="SpermGrUnit.pas">
+      <Form>FrmSpermGr</Form>
+    </DCCReference>
+    <DCCReference Include="StatusPatUnit.pas">
+      <Form>FrmStatusPat</Form>
+    </DCCReference>
+    <DCCReference Include="StLocalisTemplUnit.pas">
+      <Form>FrmStLocalisTemplate</Form>
+    </DCCReference>
+    <DCCReference Include="StPraesensTemplUnit.pas">
+      <Form>FrmStPraesensTemplate</Form>
+    </DCCReference>
+    <DCCReference Include="StProstataUnit.pas">
+      <Form>FrmStProstataTemplate</Form>
+    </DCCReference>
+    <DCCReference Include="TblAnketaUnit.pas">
+      <Form>FrmTblAnketa</Form>
+    </DCCReference>
+    <DCCReference Include="TblClinicUnit.pas">
+      <Form>FrmTblClinic</Form>
+    </DCCReference>
+    <DCCReference Include="TblDoctorUnit.pas">
+      <Form>FrmTblDoctor</Form>
+    </DCCReference>
+    <DCCReference Include="TblDrugsUnit.pas">
+      <Form>FrmTblDrugs</Form>
+    </DCCReference>
+    <DCCReference Include="TblDsUnit.pas">
+      <Form>FrmTblDs</Form>
+    </DCCReference>
+    <DCCReference Include="TblManipUnit.pas">
+      <Form>FrmTblManip</Form>
+    </DCCReference>
+    <DCCReference Include="TblPaymentUnit.pas">
+      <Form>FrmPayment</Form>
+    </DCCReference>
+    <DCCReference Include="TblPriceUnit.pas">
+      <Form>FrmTblPrice</Form>
+    </DCCReference>
+    <DCCReference Include="TblRecomUnit.pas">
+      <Form>FrmTblRecom</Form>
+    </DCCReference>
+    <DCCReference Include="TblTownUnit.pas">
+      <Form>FrmTblTown</Form>
+    </DCCReference>
+    <DCCReference Include="uFrmAbout.pas">
+      <Form>FrmAbout</Form>
+    </DCCReference>
+    <DCCReference Include="uFrmAbout_torr.pas">
+      <Form>FrmAbout_torrent</Form>
+    </DCCReference>
+    <DCCReference Include="uFrmAIDS.pas">
+      <Form>FrmAIDS</Form>
+    </DCCReference>
+    <DCCReference Include="uFrmAllergyChoice.pas">
+      <Form>FrmAllergyChoice</Form>
+    </DCCReference>
+    <DCCReference Include="uFrmAnthrDes.pas">
+      <Form>FrmAnthrDes</Form>
+    </DCCReference>
+    <DCCReference Include="uFrmChildDes.pas">
+      <Form>FrmChildDes</Form>
+    </DCCReference>
+    <DCCReference Include="UFrmChoiceForm.pas">
+      <Form>UFrmChoiceForm</Form>
+    </DCCReference>
+    <DCCReference Include="uFrmConsultation.pas">
+      <Form>FrmConsultation</Form>
+    </DCCReference>
+    <DCCReference Include="uFrmMicUrBactInoc.pas">
+      <Form>FrmMicUrBactInoc</Form>
+    </DCCReference>
+    <DCCReference Include="uFrmProstBactInoc.pas">
+      <Form>FrmProstBactInoc</Form>
+    </DCCReference>
+    <DCCReference Include="uFrmReportResearch.pas">
+      <Form>FrmReportResearch</Form>
+    </DCCReference>
+    <DCCReference Include="uFrmRichTxtShow.pas">
+      <Form>FrmRichTxtShow</Form>
+    </DCCReference>
+    <DCCReference Include="uFrmTblLaborIssue.pas">
+      <Form>FrmTblLaborIssue</Form>
+    </DCCReference>
+    <DCCReference Include="UFrmUrethBactInoc.pas">
+      <Form>FrmUrethBactInoc</Form>
+    </DCCReference>
+    <DCCReference Include="uFrmUrinBactInoc.pas">
+      <Form>FrmUrinBactInoc</Form>
+    </DCCReference>
+    <DCCReference Include="uFrmZPPP.pas">
+      <Form>FrmZPPP</Form>
+    </DCCReference>
+    <DCCReference Include="uImgAIDSFotos.pas">
+      <Form>FrmImgAIDSFotos</Form>
+    </DCCReference>
+    <DCCReference Include="uImgBiochemFotos.pas">
+      <Form>FrmImgBiochemFotos</Form>
+    </DCCReference>
+    <DCCReference Include="uImgBloodBioChemFotos.pas">
+      <Form>FrmImgBloodBioChemFotos</Form>
+    </DCCReference>
+    <DCCReference Include="uImgHbsAgFotos.pas">
+      <Form>FrmImgHbsAgFotos</Form>
+    </DCCReference>
+    <DCCReference Include="uImgHormFotos.pas">
+      <Form>FrmImgHormFotos</Form>
+    </DCCReference>
+    <DCCReference Include="uImgIFAFotos.pas">
+      <Form>FrmImgIFAFotos</Form>
+    </DCCReference>
+    <DCCReference Include="uImgKrugFotos.pas">
+      <Form>FrmImgKrugFotos</Form>
+    </DCCReference>
+    <DCCReference Include="uImgMARFotos.pas">
+      <Form>FrmImgMARFotos</Form>
+    </DCCReference>
+    <DCCReference Include="uImgMazPr.pas">
+      <Form>FrmImgMazPr</Form>
+    </DCCReference>
+    <DCCReference Include="uImgMazUr.pas">
+      <Form>FrmImgMazUr</Form>
+    </DCCReference>
+    <DCCReference Include="uImgOAKFotos.pas">
+      <Form>FrmImgOAKFotos</Form>
+    </DCCReference>
+    <DCCReference Include="uImgOnkomarkerFotos.pas">
+      <Form>FrmImgOnkomarkerFotos</Form>
+    </DCCReference>
+    <DCCReference Include="uImgPCRFotos.pas">
+      <Form>FrmImgPCRFotos</Form>
+    </DCCReference>
+    <DCCReference Include="uImgRWFotos.pas">
+      <Form>FrmImgRWFotos</Form>
+    </DCCReference>
+    <DCCReference Include="uImgSpermForos.pas">
+      <Form>FrmImgSpermFotos</Form>
+    </DCCReference>
+    <DCCReference Include="uImgSpermVitalFotos.pas">
+      <Form>FrmImgSpermVitalFotos</Form>
+    </DCCReference>
+    <DCCReference Include="uImgStLocalis.pas">
+      <Form>FrmImgStLocalis</Form>
+    </DCCReference>
+    <DCCReference Include="uImgStPreasens.pas">
+      <Form>FrmImgStPraesens</Form>
+    </DCCReference>
+    <DCCReference Include="uImgUrScopiaDry.pas">
+      <Form>FrmImgUrScopiaDry</Form>
+    </DCCReference>
+    <DCCReference Include="uImgUrScopiaIrrig.pas">
+      <Form>FrmImgUrScopiaIrrig</Form>
+    </DCCReference>
+    <DCCReference Include="uImgUZIGenit.pas">
+      <Form>FrmImgUZIGenit</Form>
+    </DCCReference>
+    <DCCReference Include="uImgUZIRen.pas">
+      <Form>FrmImgUZIRen</Form>
+    </DCCReference>
+    <DCCReference Include="uRichEdtor.pas">
+      <Form>FrmSimpleEditor</Form>
+    </DCCReference>
+    <DCCReference Include="UrScopiaDryUnit.pas">
+      <Form>FrmUrScopiaDry</Form>
+    </DCCReference>
+    <DCCReference Include="UrScopiaIrrigUnit.pas">
+      <Form>FrmUrScopiaIrrig</Form>
+    </DCCReference>
+    <DCCReference Include="uShowFullImg.pas">
+      <Form>frmShowFullImg</Form>
+    </DCCReference>
+    <DCCReference Include="uSplash.pas">
+      <Form>frmSplash</Form>
+    </DCCReference>
+    <DCCReference Include="UZIGenitUnit.pas">
+      <Form>FrmUZIGenit</Form>
+    </DCCReference>
+    <DCCReference Include="UZIRenUnit.pas">
+      <Form>FrmUZIRen</Form>
+    </DCCReference>
+    <DCCReference Include="VarAndrUnit.pas" />
+    <None Include="AndrologyProject.todo" />
+  </ItemGroup>
+</Project>

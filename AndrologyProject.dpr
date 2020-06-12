@@ -1,0 +1,92 @@
+// JCL_DEBUG_EXPERT_DELETEMAPFILE OFF
+program AndrologyProject;
+uses
+  Forms,
+  TblAnketaUnit in 'TblAnketaUnit.pas' {FrmTblAnketa},
+  TblPriceUnit in 'TblPriceUnit.pas' {FrmTblPrice},
+  TblClinicUnit in 'TblClinicUnit.pas' {FrmTblClinic},
+  StPraesensTemplUnit in 'StPraesensTemplUnit.pas' {FrmStPraesensTemplate},
+  ReseachLuesUnit in 'ReseachLuesUnit.pas' {FrmResearchLues},
+  TblDoctorUnit in 'TblDoctorUnit.pas' {FrmTblDoctor},
+  StLocalisTemplUnit in 'StLocalisTemplUnit.pas' {FrmStLocalisTemplate},
+  StProstataUnit in 'StProstataUnit.pas' {FrmStProstataTemplate},
+  OAMUnit in 'OAMUnit.pas' {FrmOAM},
+  MazProstUnit in 'MazProstUnit.pas' {FrmMazProst},
+  PCRUnit in 'PCRUnit.pas' {FrmPCR},
+  IFAUnit in 'IFAUnit.pas' {FrmIFA},
+  SpermGrUnit in 'SpermGrUnit.pas' {FrmSpermGr},
+  BloodHormUnit in 'BloodHormUnit.pas' {FrmBloodHorm},
+  UZIGenitUnit in 'UZIGenitUnit.pas' {FrmUZIGenit},
+  UZIRenUnit in 'UZIRenUnit.pas' {FrmUZIRen},
+  UrScopiaDryUnit in 'UrScopiaDryUnit.pas' {FrmUrScopiaDry},
+  UrScopiaIrrigUnit in 'UrScopiaIrrigUnit.pas' {FrmUrScopiaIrrig},
+  TblDrugsUnit in 'TblDrugsUnit.pas' {FrmTblDrugs},
+  TblManipUnit in 'TblManipUnit.pas' {FrmTblManip},
+  TblDsUnit in 'TblDsUnit.pas' {FrmTblDs},
+  TblRecomUnit in 'TblRecomUnit.pas' {FrmTblRecom},
+  DMFIBUnit in 'DMFIBUnit.pas' {DMFIB: TDataModule},
+  ConnectUnit in 'ConnectUnit.pas' {FrmConnect},
+  MKBUnit in 'MKBUnit.pas' {FrmMKBView},
+  BasePriceUnit in 'BasePriceUnit.pas' {FrmBasePrice},
+  MainAndrUnit in 'MainAndrUnit.pas' {FrmMainProg},
+  TblPaymentUnit in 'TblPaymentUnit.pas' {FrmPayment},
+  ShedulUnit in 'ShedulUnit.pas' {FrmShedul},
+  uImgStPreasens in 'uImgStPreasens.pas' {FrmImgStPraesens},
+  uImgStLocalis in 'uImgStLocalis.pas' {FrmImgStLocalis},
+  uImgMazUr in 'uImgMazUr.pas' {FrmImgMazUr},
+  uImgMazPr in 'uImgMazPr.pas' {FrmImgMazPr},
+  uImgUZIRen in 'uImgUZIRen.pas' {FrmImgUZIRen},
+  uImgUZIGenit in 'uImgUZIGenit.pas' {FrmImgUZIGenit},
+  uImgUrScopiaDry in 'uImgUrScopiaDry.pas' {FrmImgUrScopiaDry},
+  uImgUrScopiaIrrig in 'uImgUrScopiaIrrig.pas' {FrmImgUrScopiaIrrig},
+  StatusPatUnit in 'StatusPatUnit.pas' {FrmStatusPat},
+  VarAndrUnit in 'VarAndrUnit.pas',
+  uImgRWFotos in 'uImgRWFotos.pas' {FrmImgRWFotos},
+  uImgAIDSFotos in 'uImgAIDSFotos.pas' {FrmImgAIDSFotos},
+  uImgHbsAgFotos in 'uImgHbsAgFotos.pas' {FrmImgHbsAgFotos},
+  uImgIFAFotos in 'uImgIFAFotos.pas' {FrmImgIFAFotos},
+  uImgPCRFotos in 'uImgPCRFotos.pas' {FrmImgPCRFotos},
+  uImgSpermForos in 'uImgSpermForos.pas' {FrmImgSpermFotos},
+  uImgKrugFotos in 'uImgKrugFotos.pas' {FrmImgKrugFotos},
+  uImgBiochemFotos in 'uImgBiochemFotos.pas' {FrmImgBiochemFotos},
+  uImgMARFotos in 'uImgMARFotos.pas' {FrmImgMARFotos},
+  uImgSpermVitalFotos in 'uImgSpermVitalFotos.pas' {FrmImgSpermVitalFotos},
+  uImgOAKFotos in 'uImgOAKFotos.pas' {FrmImgOAKFotos},
+  uImgOnkomarkerFotos in 'uImgOnkomarkerFotos.pas' {FrmImgOnkomarkerFotos},
+  uFrmAbout in 'uFrmAbout.pas' {FrmAbout},
+  uFrmAllergyChoice in 'uFrmAllergyChoice.pas' {FrmAllergyChoice},
+  uFrmChildDes in 'uFrmChildDes.pas' {FrmChildDes},
+  uFrmAnthrDes in 'uFrmAnthrDes.pas' {FrmAnthrDes},
+  uFrmZPPP in 'uFrmZPPP.pas' {FrmZPPP},
+  uFrmConsultation in 'uFrmConsultation.pas' {FrmConsultation},
+  TblTownUnit in 'TblTownUnit.pas' {FrmTblTown},
+  uFrmTblLaborIssue in 'uFrmTblLaborIssue.pas' {FrmTblLaborIssue},
+  uFrmReportResearch in 'uFrmReportResearch.pas' {FrmReportResearch},
+  MazUrethraUnit in 'MazUrethraUnit.pas' {FrmMazUrethra},
+  uFrmAIDS in 'uFrmAIDS.pas' {FrmAIDS},
+  UFrmUrethBactInoc in 'UFrmUrethBactInoc.pas' {FrmUrethBactInoc},
+  uFrmProstBactInoc in 'uFrmProstBactInoc.pas' {FrmProstBactInoc},
+  uFrmMicUrBactInoc in 'uFrmMicUrBactInoc.pas' {FrmMicUrBactInoc},
+  uFrmUrinBactInoc in 'uFrmUrinBactInoc.pas' {FrmUrinBactInoc},
+  uRichEdtor in 'uRichEdtor.pas' {FrmSimpleEditor},
+  uFrmRichTxtShow in 'uFrmRichTxtShow.pas' {FrmRichTxtShow},
+  uImgHormFotos in 'uImgHormFotos.pas' {FrmImgHormFotos},
+  uImgBloodBioChemFotos in 'uImgBloodBioChemFotos.pas' {FrmImgBloodBioChemFotos},
+  uFrmAbout_torr in 'uFrmAbout_torr.pas' {FrmAbout_torrent},
+  ConnectUnit_emb in 'ConnectUnit_emb.pas' {FrmConnect_emd},
+  UFrmChoiceForm in 'UFrmChoiceForm.pas' {UFrmChoiceForm},
+  uSplash in 'uSplash.pas' {frmSplash},
+  uShowFullImg in 'uShowFullImg.pas' {frmShowFullImg};
+
+{$E exe}
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.Title := 'ARM Practitioner''s workplace';
+  Application.CreateForm(TDMFIB, DMFIB);
+  Application.CreateForm(TFrmMainProg, FrmMainProg);
+  Application.CreateForm(TfrmShowFullImg, frmShowFullImg);
+  Application.Run;
+end.
